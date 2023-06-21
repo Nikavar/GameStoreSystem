@@ -13,6 +13,8 @@ namespace GameStore.Model.Models
         public int Id { get; set; }
         public string? UserName { get; set; }
         public string? Password { get; set; }
+
+        // relations
         public ICollection<RoleUser>? RoleUsers { get; set; }
         public ICollection<Customer>? Customers { get; set; }
     }

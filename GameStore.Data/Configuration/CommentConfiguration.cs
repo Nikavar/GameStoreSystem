@@ -15,7 +15,21 @@ namespace GameStore.Data.Configuration
         {
             builder.ToTable("Comments");
 
+            builder.HasKey(c => c.Id);
 
+            builder.Property(c => c.CommentText)
+                .HasMaxLength(600)
+                .IsUnicode(true);
+
+            builder.Property(c => c.GameId)
+                .HasColumnName("GameId");
+
+            builder.Property(c => c.ParentId)
+                .HasColumnName("ParentId");
+
+            // relations
+            builder.HasOne(g => g.Game)
+                .WithMany(c => c.comments);        
         }
     }
 }
