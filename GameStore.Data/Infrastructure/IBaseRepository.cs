@@ -11,8 +11,8 @@ namespace GameStore.Data.Infrastructure
     {
         #region General Methods for All Classes
 
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> filter);
+        Task<IReadOnlyList<T>> GetAllAsync();
+        Task<IReadOnlyList<T>> GetManyAsync(Expression<Func<T, bool>> filter);
         Task<T> GetByIdAsync(params object[] key);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
