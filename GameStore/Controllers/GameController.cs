@@ -35,22 +35,37 @@ namespace GameStore.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAsync([FromBody] GameModel model)
         {
-            await gameService.AddGameAsync(model);
-            return Ok();
+            if(await gameService.IsGameModelValidate(model))
+            {
+                await gameService.AddGameAsync(model);
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
         {
-            await gameService.UpdateGameAsync(model); 
-            return Ok();
+            if(await gameService.IsGameModelValidate(model))
+            {
+                await gameService.UpdateGameAsync(model); 
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         [HttpDelete]
         public async Task<ActionResult> DeleteAsync([FromBody] GameModel model)
         {
-            await gameService.DeleteGameAsync(model);
-            return Ok();
+            if(await gameService.IsGameModelValidate(model))
+            {
+                await gameService.DeleteGameAsync(model);
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace GameStore.Model.Models
         public int Id { get; set; }
         public int GameId { get; set; }
         public int GenreId { get; set; }
+
+        // relations
         public Game Game { get; set; }
         public Genre Genre { get; set; }
     }

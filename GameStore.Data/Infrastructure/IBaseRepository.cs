@@ -11,14 +11,17 @@ namespace GameStore.Data.Infrastructure
     {
         #region General Methods for All Classes
 
-        Task<IReadOnlyList<T>> GetAllAsync();
-        Task<IReadOnlyList<T>> GetManyAsync(Expression<Func<T, bool>> filter);
+        // comment #1
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> filter);
         Task<T> GetByIdAsync(params object[] key);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task DeleteManyAsync(Expression<Func<T, bool>> filter);
         Task SaveAsync();
+
+        Task<bool> IsModelValidate<TModel>(TModel model);
 
 
         #endregion

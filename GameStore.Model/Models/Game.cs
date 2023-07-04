@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,24 @@ namespace GameStore.Model.Models
     {
         [Key]
         public int Id { get; set; }
-        public string GameName { get; set; }
+        
+        [Required]
+        public string? GameName { get; set; }
+
+        [NotNull]
         public decimal Price { get; set; }
         public string Currency { get; set; } = "US dollar";
-        public string Description { get; set; }
-        public string ProfileImage { get; set; }
+
+        [Required]
+        public string? Description { get; set; }
+        public string? ProfileImage { get; set; }
 
         // relations
-        public ICollection<Comment> comments { get; set; }
+
+        // Comment #2.1
+        public ICollection<Comment>? Comments { get; set; }
+
+        // Comment N2.2
+        public ICollection<GameGenre>? GameGenres { get; set; }
     }
 }

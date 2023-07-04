@@ -94,6 +94,22 @@ namespace GameStore.Data.Infrastructure
             await dataContext.SaveChangesAsync();
         }
 
+        Task<IEnumerable<T>> IBaseRepository<T>.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<T>> IBaseRepository<T>.GetManyAsync(Expression<Func<T, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual async Task<bool> IsModelValidate<TModel>(TModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #endregion
     }
 }
