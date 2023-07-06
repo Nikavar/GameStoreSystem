@@ -1,4 +1,5 @@
-﻿using GameStore.Model.Models;
+﻿using GameStore.Data.Configuration;
+using GameStore.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace GameStore.Data
 {
-	public class GameStoreContext : DbContext
-	{
+    public class GameStoreContext : DbContext
+    {
         public GameStoreContext() : base()
         {
 
@@ -36,6 +37,13 @@ namespace GameStore.Data
         public virtual void Commit()
         {
             base.SaveChanges();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new GameConfiguration());
         }
     }
 }

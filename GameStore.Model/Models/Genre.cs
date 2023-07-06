@@ -11,8 +11,10 @@ namespace GameStore.Model.Models
     {
         [Key]
         public int Id { get; set; }
-        public string GenreName { get; set; }
-        public int GenreId { get; set; }
-        public ICollection<GameGenre> GameGenres { get; set; }
+        public string? GenreName { get; set; }
+        public int? ParentId { get; set; }
+
+        // relations
+        public ICollection<GameGenre>? GameGenres { get; set; }
     }
 }

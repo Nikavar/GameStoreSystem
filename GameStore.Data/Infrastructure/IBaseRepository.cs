@@ -11,6 +11,7 @@ namespace GameStore.Data.Infrastructure
     {
         #region General Methods for All Classes
 
+        // comment #1
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> filter);
         Task<T> GetByIdAsync(params object[] key);
@@ -19,7 +20,6 @@ namespace GameStore.Data.Infrastructure
         Task DeleteAsync(T entity);
         Task DeleteManyAsync(Expression<Func<T, bool>> filter);
         Task SaveAsync();
-
 
         #endregion
     }

@@ -39,14 +39,14 @@ namespace GameStore.Data.Infrastructure
 
         #region Implementation
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IReadOnlyList<T>> GetAllAsync()
         {
             return await dbSet.ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> filter)
+        public virtual async Task<IReadOnlyList<T>> GetManyAsync(Expression<Func<T, bool>> filter)
         {
-            return dbSet.Where(filter).AsEnumerable();
+            return await dbSet.Where(filter).ToListAsync();
         }
 
         public virtual async Task<T> GetByIdAsync(params object[] key)
@@ -92,6 +92,16 @@ namespace GameStore.Data.Infrastructure
         public virtual async Task SaveAsync()
         {
             await dataContext.SaveChangesAsync();
+        }
+
+        Task<IEnumerable<T>> IBaseRepository<T>.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<T>> IBaseRepository<T>.GetManyAsync(Expression<Func<T, bool>> filter)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
