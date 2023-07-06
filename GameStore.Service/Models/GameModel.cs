@@ -10,9 +10,8 @@ namespace GameStore.Service.Models
     public class GameModel
     {
         // comment #3
-
-        [Required]
         public int Id { get; set; }
+
         [Required]
         public string? GameName { get; set; }
         public decimal Price { get; set; }

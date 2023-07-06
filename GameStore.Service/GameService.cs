@@ -5,6 +5,7 @@ using GameStore.Model.Models;
 using GameStore.Service.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -42,22 +43,22 @@ namespace GameStore.Service
             return mapper.Map<GameModel>(entity);
         }
 
-        public async Task<GameModel> AddGameAsync(GameModel model)
+        public async Task<bool> AddGameAsync(GameModel model)
         {
-            var isValidate = await IsGameModelValidate(model);
-            var entity = new Game();;
+            var isValidate = IsGameModelValidate(model);
 
             if (isValidate)
             {
-                entity = await gameRepository.AddAsync(mapper.Map<Game>(model));
+                await gameRepository.AddAsync(mapper.Map<Game>(model));
+                return true;
             }
 
-            return mapper.Map<GameModel>(entity);
+            return false;
         }
 
         public async Task DeleteGameAsync(GameModel model)
         {
-            var isValidate = await IsGameModelValidate(model);
+            var isValidate = IsGameModelValidate(model);
 
             if (isValidate)
             {   
@@ -72,7 +73,7 @@ namespace GameStore.Service
 
         public async Task UpdateGameAsync(GameModel model)
         {
-            var isValidate = await IsGameModelValidate(model);
+            var isValidate = IsGameModelValidate(model);
 
             if (isValidate)
             {
@@ -80,9 +81,12 @@ namespace GameStore.Service
             }
         }
 
-        public async Task<bool> IsGameModelValidate(GameModel model)
+        public bool IsGameModelValidate(GameModel model)
         {
-           return await gameRepository.IsModelValidate(model);
+            if (string.IsNullOrWhiteSpace(model.GameName) || string.IsNullOrWhiteSpace(model.Description))
+                return false;
+
+            return true;
         }
     }
 
@@ -91,11 +95,10 @@ namespace GameStore.Service
         Task<IEnumerable<GameModel>> GetAllGamesAsync();
         Task<IEnumerable<GameModel>> GetManyGamesAsync(Expression<Func<Game, bool>> filter);
         Task<GameModel> GetGameByIdAsync(params object[] key);
-        Task<GameModel> AddGameAsync(GameModel entity);
+        Task<bool> AddGameAsync(GameModel entity);
         Task UpdateGameAsync(GameModel entity);
         Task DeleteGameAsync(GameModel entity);
         Task DeleteManyGamesAsync(Expression<Func<Game, bool>> filter);
-
-        Task<bool> IsGameModelValidate(GameModel model);
+        bool IsGameModelValidate(GameModel model);
     }
 }

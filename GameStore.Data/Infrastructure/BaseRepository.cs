@@ -104,12 +104,6 @@ namespace GameStore.Data.Infrastructure
             throw new NotImplementedException();
         }
 
-        public virtual async Task<bool> IsModelValidate<TModel>(TModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-
         #endregion
     }
 }

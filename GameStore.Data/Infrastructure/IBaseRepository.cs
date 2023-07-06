@@ -21,9 +21,6 @@ namespace GameStore.Data.Infrastructure
         Task DeleteManyAsync(Expression<Func<T, bool>> filter);
         Task SaveAsync();
 
-        Task<bool> IsModelValidate<TModel>(TModel model);
-
-
         #endregion
     }
 }
