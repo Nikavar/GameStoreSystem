@@ -15,4 +15,8 @@
     <ProjectReference Include="..\GameStore.Model\GameStore.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

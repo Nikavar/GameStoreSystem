@@ -29,6 +29,7 @@ namespace GameStore.Service
         public async Task<IEnumerable<GameModel>> GetAllGamesAsync()
         {
             var entity = await gameRepository.GetAllAsync();
+
             return mapper.Map<List<GameModel>>(entity);
         }
         public async Task<IEnumerable<GameModel>> GetManyGamesAsync(Expression<Func<Game, bool>> filter)

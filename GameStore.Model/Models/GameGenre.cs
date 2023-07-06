@@ -15,7 +15,7 @@ namespace GameStore.Model.Models
         public int GenreId { get; set; }
 
         // relations
-        public Game Game { get; set; }
-        public Genre Genre { get; set; }
+        public Game? Game { get; set; }
+        public Genre? Genre { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,7 +30,14 @@ namespace GameStore.Data.Configuration
 
             // relations
             builder.HasOne(g => g.Game)
-                .WithMany(c => c.comments);        
+                .WithMany(c => c.Comments);
+
+            // To-Do
+            //modelBuilder.Entity<Comment>()
+            //    .HasMany(x => x.Replies)
+            //    .WithOne(x => x.Reply)
+            //    .IsRequired(false)
+            //    .HasForeignKey(c => c.ReplyId);
         }
     }
 }
