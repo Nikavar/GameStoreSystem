@@ -37,10 +37,10 @@ namespace GameStore.Controllers
         {
             if(await gameService.AddGameAsync(model))
             {
-                return Ok("The Game created");
+                return Ok("The Game created!");
             }
 
-            return BadRequest("The Game could not be created");
+            return BadRequest("The Game could not be created!");
         }
 
         [HttpPut]
