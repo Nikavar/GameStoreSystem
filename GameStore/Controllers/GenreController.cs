@@ -36,6 +36,8 @@ namespace GameStore.Controllers
                     ChildGenres = x.Genres?.Adapt<List<GenreModel>>()
                 }).ToList();
 
+            // test
+
             return Ok(model);
         }
     }
