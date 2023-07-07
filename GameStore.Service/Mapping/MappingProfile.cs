@@ -15,6 +15,7 @@ namespace GameStore.Service.Mapping
         public MappingProfile()
         {
             CreateMap<Game, GameModel>().ReverseMap();
+            CreateMap<Genre, GenreModel>().ReverseMap();
         }
     }
 }

@@ -24,10 +24,16 @@ namespace GameStore.Service
         {
            return await genreRepository.GetAllAsync();
         }
+
+        public async Task<Genre> GetGenreByIdAsync(int id)
+        {
+            return await genreRepository.GetByIdAsync(id);
+        }
     }
 
     public interface IGenreService
     {
         Task<IEnumerable<Genre>> GetAllGenresAsync();
+        Task<Genre> GetGenreByIdAsync(int id);
     }
 }

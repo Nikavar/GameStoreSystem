@@ -12,11 +12,13 @@ namespace GameStore.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService gameService;
+        private readonly IGenreService genreService;
         private readonly IMapper mapper;
 
-        public GameController(IGameService gameService, IMapper mapper)
+        public GameController(IGameService gameService, IGenreService genreService, IMapper mapper)
         {
             this.gameService = gameService;
+            this.genreService = genreService;
             this.mapper = mapper;
         }
 
@@ -31,6 +33,18 @@ namespace GameStore.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(int id)
         {
+            var game = await gameService.GetGameByIdAsync(id);
+            return Ok(game);
+        }
+
+        // task 1.5
+
+        [HttpGet("Find")]
+        public async Task<ActionResult> GetByGerneAndName([FromQuery]int? genreId, string name)
+        {
+            if (genreId != null)
+                var genres = genreService.GetGenreById(genreId);
+
             var game = await gameService.GetGameByIdAsync(id);
             return Ok(game);
         }
