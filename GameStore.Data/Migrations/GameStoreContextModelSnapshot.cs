@@ -415,7 +415,7 @@ namespace GameStore.Data.Migrations
             modelBuilder.Entity("GameStore.Model.Models.Genre", b =>
                 {
                     b.HasOne("GameStore.Model.Models.Genre", "ParentGenre")
-                        .WithMany()
+                        .WithMany("Genres")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("ParentGenre");
@@ -493,6 +493,8 @@ namespace GameStore.Data.Migrations
             modelBuilder.Entity("GameStore.Model.Models.Genre", b =>
                 {
                     b.Navigation("GenreGames");
+
+                    b.Navigation("Genres");
                 });
 
             modelBuilder.Entity("GameStore.Model.Models.PaymentType", b =>

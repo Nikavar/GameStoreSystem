@@ -13,10 +13,10 @@ namespace GameStore.Model.Models
     {
         [Key]
         public int Id { get; set; }
-        public string? GenreName { get; set; }
         public int? ParentId { get; set; }
+        public string? GenreName { get; set; }
         public string? Description { get; set; }
-        public ICollection<Genre>? Genres { get; set; }
+        public ICollection<Genre>? ChildGenres { get; set; }
 
         // relations
         [ForeignKey("ParentId")]
