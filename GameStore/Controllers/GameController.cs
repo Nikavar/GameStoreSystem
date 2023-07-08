@@ -129,6 +129,7 @@ namespace GameStore.Controllers
             return BadRequest();
         }
 
+        // task 1.7
         [HttpPut]
         public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
         {
