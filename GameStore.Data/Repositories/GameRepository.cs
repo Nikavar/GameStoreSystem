@@ -12,11 +12,16 @@ namespace GameStore.Data.Repositories
     {
         public GameRepository(IDbFactory dbFactory) : base(dbFactory)
         {
-        }    
+        }
+
+        public async Task AddImageToGame(Game entity)
+        {
+            await UpdateAsync(entity);
+        }
     }
 
     public interface IGameRepository : IBaseRepository<Game>
     {
-        
+        Task AddImageToGame(Game entity);
     }
 }

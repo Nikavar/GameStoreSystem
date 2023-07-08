@@ -116,6 +116,19 @@ namespace GameStore.Controllers
             return BadRequest("The Game could not be created!");
         }
 
+        // task 1.6
+        [HttpPut]
+        public async Task<ActionResult> AddImageToGameAsync([FromBody] GameModel model)
+        {
+            if (gameService.IsGameModelValidate(model))
+            {
+                await gameService.AddImageToGame(model);
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [HttpPut]
         public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
         {

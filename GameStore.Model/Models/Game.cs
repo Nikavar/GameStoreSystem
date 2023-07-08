@@ -23,7 +23,6 @@ namespace GameStore.Model.Models
         [Required]
         public string? Description { get; set; }
         public string? ProfileImage { get; set; }
-        //public ICollection<Genre>? Genres { get; set; }
 
         // relations
 
