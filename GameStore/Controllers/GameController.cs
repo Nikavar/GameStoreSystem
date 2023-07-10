@@ -142,6 +142,8 @@ namespace GameStore.Controllers
             return BadRequest();
         }
 
+        // task 1.8
+
         [HttpDelete]
         public async Task<ActionResult> DeleteAsync([FromBody] GameModel model)
         {
