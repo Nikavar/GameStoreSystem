@@ -2,11 +2,16 @@
 using GameStore.Data.Infrastructure;
 using GameStore.Data.Repositories;
 using GameStore.Model.Models;
+using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +30,17 @@ namespace GameStore.Service
             this.mapper = mapper;
         }
 
+        public async Task<Account> LoginAccountAsync(string username, string password)
+        {
+            if(string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
+            {
+                throw new NullReferenceException();
+            }  
+                
+            return await accountRepository.LoginAccountAsync(username, password);   
+
+        }
+
         public async Task<Account> RegisterAccountAsync(AccountModel model)
         {
             // Because email must be unique, I use it to check if the same account is already in DB or not
@@ -41,11 +57,10 @@ namespace GameStore.Service
 
             throw new Exception("This account is already exists!");
         }
-    }
 
-    public interface IAccountService
-    {
-        Task<Account> RegisterAccountAsync(AccountModel model);
-
+        public Task<Account> RegisterAccountAsync(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

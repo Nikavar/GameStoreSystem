@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GameStore.Model.Models;
 using GameStore.Service;
+using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
 using Mapster;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +53,7 @@ namespace GameStore.Controllers
 
             IEnumerable<Game> result;
 
+            // To_Do put in GameService!!!
             if (gameList != null && genreList != null && gameGenreList != null)
             {
                 if (genreId != null && !string.IsNullOrEmpty(name))
@@ -117,7 +119,7 @@ namespace GameStore.Controllers
         }
 
         // task 1.6
-        [HttpPut]
+        [HttpPost]
         public async Task<ActionResult> AddImageToGameAsync([FromBody] GameModel model)
         {
             if (gameService.IsGameModelValidate(model))

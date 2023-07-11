@@ -1,6 +1,6 @@
 ﻿using GameStore.Data.Infrastructure;
 using GameStore.Model.Models;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Data.Repositories
 {
@@ -9,6 +9,11 @@ namespace GameStore.Data.Repositories
         public AccountRepository(IDbFactory dbFactory) : base(dbFactory)
         {
             
+        }
+
+        public async Task<Account> LoginAccountAsync(string username, string password)
+        {
+            return await dbSet.Where(x => x.UserName == username && x.Password == password).FirstOrDefaultAsync();
         }
 
         public async Task<Account> RegisterAccountAsync(Account account)
@@ -21,5 +26,6 @@ namespace GameStore.Data.Repositories
     public interface IAccountRepository : IBaseRepository<Account>
     {
         Task<Account> RegisterAccountAsync(Account account);
+        Task<Account> LoginAccountAsync(string username, string password);
     }
 }

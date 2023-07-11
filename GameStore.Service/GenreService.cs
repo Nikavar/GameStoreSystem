@@ -2,6 +2,7 @@
 using GameStore.Data.Infrastructure;
 using GameStore.Data.Repositories;
 using GameStore.Model.Models;
+using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,4 @@ namespace GameStore.Service
         }
     }
 
-    public interface IGenreService
-    {
-        Task<IEnumerable<Genre>> GetAllGenresAsync();
-        Task<GenreModel> GetGenreByIdAsync(int id);        
-    }
 }

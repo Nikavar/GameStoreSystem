@@ -2,6 +2,7 @@
 using GameStore.Data.Infrastructure;
 using GameStore.Data.Repositories;
 using GameStore.Model.Models;
+using GameStore.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,4 @@ namespace GameStore.Service
         }
     }
 
-    public interface IGameGenreService
-    {
-        Task<IEnumerable<GameGenre>> GetAllGameGenreAsync();
-    }
 }
