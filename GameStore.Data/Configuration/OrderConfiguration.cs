@@ -17,18 +17,15 @@ namespace GameStore.Data.Configuration
 
             builder.HasKey(o => o.Id);
 
-            builder.Property(o => o.CustomerId)
-                .HasColumnName("CustomerId");
-
-            builder.Property(o => o.CustomerId)
-                .HasColumnName("PaymentId");
+            builder.Property(o => o.AccountId)
+                .HasColumnName("AccountId");
 
             builder.Property(o => o.Comments)
                 .HasMaxLength(600)
                 .IsUnicode(true);
 
             // relations
-            builder.HasOne(o => o.Customer)
+            builder.HasOne(o => o.Account)
                 .WithMany(o => o.Orders);
 
             builder.HasOne(o => o.PaymentType)
