@@ -26,7 +26,7 @@ namespace GameStore.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("AllGame")]
         public async Task<ActionResult> GetAllAsync()
         {
             var gameList = await gameService.GetAllGamesAsync();
@@ -117,7 +117,7 @@ namespace GameStore.Controllers
         }
 
         // task 1.6
-        [HttpPut]
+        [HttpPut("AddImageToGame")]
         public async Task<ActionResult> AddImageToGameAsync([FromBody] GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
@@ -129,7 +129,7 @@ namespace GameStore.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
