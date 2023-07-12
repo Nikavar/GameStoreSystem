@@ -31,6 +31,14 @@ namespace GameStore.Data.Configuration
             builder.Property(acc => acc.Email)
                 .IsUnicode (false);
 
+            // relations
+
+            builder.HasMany(ar => ar.AccountRoles)
+                .WithOne(acc => acc.Account);
+
+            builder.HasMany(o => o.AccountRoles)
+                .WithOne(acc => acc.Account);
+
         }       
     }
 }

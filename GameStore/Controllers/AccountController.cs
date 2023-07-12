@@ -22,7 +22,7 @@ namespace GameStore.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<ActionResult> RegisterAccount([FromBody] AccountModel model)
         {
             var result = await accountService.RegisterAccountAsync(model);
@@ -33,15 +33,21 @@ namespace GameStore.Controllers
             return BadRequest(Warnings.AccountAlreadyExists<Account>());
         }
 
-        [HttpPost]
-        public async Task<ActionResult> LoginAccount(string username, string password)
+        [HttpGet("Login")]
+        public async Task<ActionResult> LoginAccount([FromQuery]string username, string password, bool rememberMe)
         {
             var result = await accountService.LoginAccountAsync(username, password);
 
             if (result != null)
             {
-                var token = Helper.TokenGeneration(result, configuration);
-                HttpContext.Response.Cookies.Append("Token", token);
+                if (rememberMe)
+                {
+                    var token = Helper.TokenGeneration(result, configuration);
+                    HttpContext.Response.Cookies.Append("Token", token);
+                    result.RememberMe = true;
+                    await accountService.UpdateAccountAsync(result);
+                }
+
                 return Ok(result);
             }
             return BadRequest("your username or/and password is wrong!"); 

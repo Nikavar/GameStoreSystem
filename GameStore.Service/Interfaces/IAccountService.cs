@@ -11,6 +11,7 @@ namespace GameStore.Service.Interfaces
 {
     public interface IAccountService
     {
+        Task UpdateAccountAsync(Account model);
         Task<Account> RegisterAccountAsync(AccountModel model);
         Task<Account> LoginAccountAsync(string username, string password);
     }

@@ -13,7 +13,7 @@ namespace GameStore.Data.Repositories
 
         public async Task<Account> LoginAccountAsync(string username, string password)
         {
-            return await dbSet.Where(x => x.UserName == username && x.Password == password).FirstOrDefaultAsync();
+            return await dbSet.Where(x => x.UserName == username).FirstOrDefaultAsync();
         }
 
         public async Task<Account> RegisterAccountAsync(Account account)
@@ -24,8 +24,9 @@ namespace GameStore.Data.Repositories
     }
 
     public interface IAccountRepository : IBaseRepository<Account>
-    {
-        Task<Account> RegisterAccountAsync(Account account);
+    { 
+        Task<Account> RegisterAccountAsync(Account Account);
         Task<Account> LoginAccountAsync(string username, string password);
+
     }
 }

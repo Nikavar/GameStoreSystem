@@ -46,7 +46,7 @@ namespace GameStore.Service
             // Because email must be unique, I use it to check if the same account is already in DB or not
             var account = await accountRepository.GetManyAsync(X => X.Email.Equals(model.Email));
 
-            // if not, I create a new one!
+            // If not, I create a new one!
             if(account.FirstOrDefault() == null)
             {
                 var entity = mapper.Map<Account>(model);
@@ -58,9 +58,9 @@ namespace GameStore.Service
             throw new Exception("This account is already exists!");
         }
 
-        public Task<Account> RegisterAccountAsync(string username, string password)
-        {
-            throw new NotImplementedException();
+        public async Task UpdateAccountAsync(Account entity)
+        {     
+            await accountRepository.UpdateAsync(entity);
         }
     }
 }
