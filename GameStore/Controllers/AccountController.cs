@@ -62,7 +62,7 @@ namespace GameStore.Controllers
             return BadRequest("your username or/and password is wrong!"); 
         }
 
-        [HttpPut]
+        [HttpPut("LogOut")]
         public async Task<ActionResult> LogOut([FromBody] AccountModel model)
         {
             HttpContext.Response.Cookies.Delete("Token");
