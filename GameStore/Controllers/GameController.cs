@@ -187,6 +187,13 @@ namespace GameStore.Controllers
             return Ok();
         }
 
+        // task 3.4
+        [HttpDelete("DeleteComment")]
+        public async Task<ActionResult> DeleteComment([FromQuery]int?id)
+        {
+            await commentService.DeleteCommentAsync(id);
+            return Ok();
+        }
 
     }
 }
