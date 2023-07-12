@@ -38,7 +38,6 @@ namespace GameStore.Service
             }  
                 
             return await accountRepository.LoginAccountAsync(username, password);   
-
         }
 
         public async Task<Account> RegisterAccountAsync(AccountModel model)
@@ -58,8 +57,9 @@ namespace GameStore.Service
             throw new Exception("This account is already exists!");
         }
 
-        public async Task UpdateAccountAsync(Account entity)
-        {     
+        public async Task UpdateAccountAsync(AccountModel model)
+        {
+            var entity = mapper.Map<Account>(model);
             await accountRepository.UpdateAsync(entity);
         }
     }
