@@ -20,8 +20,8 @@ namespace GameStore.Controllers
         private readonly ICommentService commentService;
         private readonly IMapper mapper;
 
-        public GameController(IGameService gameService, IGenreService genreService, 
-                              IGameGenreService gameGenreService, ICommentService commentService, 
+        public GameController(IGameService gameService, IGenreService genreService,
+                              IGameGenreService gameGenreService, ICommentService commentService,
                               IMapper mapper)
         {
             this.gameService = gameService;
@@ -49,7 +49,7 @@ namespace GameStore.Controllers
         // task 1.5
 
         [HttpGet("Find")]
-        public async Task<ActionResult> GetByGenreAndName([FromQuery]int? genreId, string? name)
+        public async Task<ActionResult> GetByGenreAndName([FromQuery] int? genreId, string? name)
         {
             var genreList = await genreService.GetAllGenresAsync();
             var gameList = await gameService.GetAllGamesAsync();
@@ -162,12 +162,21 @@ namespace GameStore.Controllers
             return BadRequest();
         }
 
+        // task 3.1
 
         [HttpGet("GetCommentsByGameId")]
         public async Task<ActionResult> GetCommentsByGameIdAsync([FromQuery] int? gameId)
         {
             var model = await commentService.GetCommentsByGameIdAsync(gameId);
             return Ok(model);
+        }
+
+        // task 3.2
+        [HttpPost("PostComment")]
+        public async Task<ActionResult> PostCommentToGameAsync(CommentModel model)
+        {
+            var result = await commentService.PostCommentToGameAsync(model);
+            return Ok(result);
         }
     }
 }

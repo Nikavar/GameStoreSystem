@@ -12,6 +12,8 @@ namespace GameStore.Model.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [MaxLength(length:600)]
         public string? CommentContent { get; set; }
         public string? User { get; set; }
         public DateTime PostedTime { get; set; }
