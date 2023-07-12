@@ -178,5 +178,15 @@ namespace GameStore.Controllers
             var result = await commentService.PostCommentToGameAsync(model);
             return Ok(result);
         }
+
+        // task 3.3
+        [HttpPut("UpdateComment")]
+        public async Task<ActionResult> UpdateCommentAsync([FromBody] CommentModel model)
+        {
+            await commentService.UpdateCommentAsync(model);
+            return Ok();
+        }
+
+
     }
 }
