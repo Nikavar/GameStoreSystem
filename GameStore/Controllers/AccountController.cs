@@ -49,6 +49,14 @@ namespace GameStore.Controllers
                     await accountService.UpdateAccountAsync(result.Adapt<AccountModel>());
                 }
 
+                // task 2.6 _ First name and Last name are displayed on Site
+
+                // I return the logged account in "result", so it is an easy way 
+                // to get FirstName & LastName from this object, for instance:
+
+                var firstName = result.FirstName;
+                var lastName = result.LastName;
+
                 return Ok(result);
             }
             return BadRequest("your username or/and password is wrong!"); 
