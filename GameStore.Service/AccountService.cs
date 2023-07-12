@@ -62,5 +62,12 @@ namespace GameStore.Service
             var entity = mapper.Map<Account>(model);
             await accountRepository.UpdateAsync(entity);
         }
+
+        // task 2.7 
+        public async Task AddAvatarToAccount(AccountModel model)
+        {
+            var entity = mapper.Map<Account>(model);
+            await accountRepository.UpdateAsync(entity);
+        }
     }
 }

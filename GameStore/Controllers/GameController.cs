@@ -119,7 +119,7 @@ namespace GameStore.Controllers
         }
 
         // task 1.6
-        [HttpPost("AddImageToGame")]
+        [HttpPut("AddImageToGame")]
         public async Task<ActionResult> AddImageToGameAsync([FromBody] GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
