@@ -73,5 +73,17 @@ namespace GameStore.Service
 
             await commentRepository.UpdateAsync(entity);
         }
+
+        public Task DeleteCommentAsync(int? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task RestoreCommentAsync(int? id)
+        {
+            var entity = await commentRepository.GetByIdAsync(id);
+            entity.IsDeleted = false;
+            await commentRepository.UpdateAsync(entity);
+        }
     }
 }

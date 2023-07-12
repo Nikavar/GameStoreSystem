@@ -14,5 +14,6 @@ namespace GameStore.Service.Interfaces
         Task<CommentModel> PostCommentToGameAsync(CommentModel model);
         Task UpdateCommentAsync(CommentModel model);
         Task DeleteCommentAsync(int? id);
+        Task RestoreCommentAsync(int? id);
     }
 }
