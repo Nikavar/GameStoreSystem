@@ -3,6 +3,7 @@ using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
 using GameStore.Statics;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +46,7 @@ namespace GameStore.Controllers
                     var token = Helper.TokenGeneration(result, configuration);
                     HttpContext.Response.Cookies.Append("Token", token);
                     result.RememberMe = true;
-                    await accountService.UpdateAccountAsync(result);
+                    await accountService.UpdateAccountAsync(result.Adapt<AccountModel>());
                 }
 
                 return Ok(result);
