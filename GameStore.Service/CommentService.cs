@@ -7,6 +7,7 @@ using GameStore.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,9 +53,8 @@ namespace GameStore.Service
         // task 3.2
         public async Task<CommentModel> PostCommentToGameAsync(CommentModel model)
         {
-            var entity = await commentRepository.AddAsync(mapper.Map<Comment>(model));
-            var result = await commentRepository.AddAsync(entity);
-            return mapper.Map<CommentModel>(result);
+            var entity = await commentRepository.AddAsync(mapper.Map<Comment>(model));            
+            return mapper.Map<CommentModel>(entity);
         }
 
 
@@ -66,7 +66,7 @@ namespace GameStore.Service
         }
 
         // task 3.4
-        public async Task DeleteComment(int? id)
+        public async Task DeleteCommentAsync(int? id)
         {
             var entity = await commentRepository.GetByIdAsync(id);
             entity.IsDeleted = true;
@@ -74,16 +74,28 @@ namespace GameStore.Service
             await commentRepository.UpdateAsync(entity);
         }
 
-        public Task DeleteCommentAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
+        // task3.5
         public async Task RestoreCommentAsync(int? id)
         {
             var entity = await commentRepository.GetByIdAsync(id);
             entity.IsDeleted = false;
             await commentRepository.UpdateAsync(entity);
+        }
+
+        // task3.6
+        public async Task ReplyOnCommentAsync(int? id, string? reply)
+        {
+            var comment = await commentRepository.GetByIdAsync(id);
+
+            comment?.Replies?.Add(new Comment 
+            { 
+                GameId = comment.Id, 
+                IsDeleted = false, 
+                PostedTime = DateTime.Now, 
+                ReplyId = id, 
+                CommentContent = reply,
+                //User = ???                
+            });
         }
     }
 }

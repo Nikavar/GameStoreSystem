@@ -12,11 +12,11 @@ namespace GameStore.Model.Models
         [Key]
         public int Id { get; set; }
         public int AccountId { get; set; }
-        public int PaymentId { get; set; }
+        public string? PaymentType { get; set; }
         public string? Comments { get; set; }       
         
         // relations
         public Account? Account { get; set; }
-        public PaymentType? PaymentType { get; set; }
+        //public PaymentType? PaymentType { get; set; }
     }
 }

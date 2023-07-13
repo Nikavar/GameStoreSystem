@@ -51,64 +51,14 @@ namespace GameStore.Controllers
         [HttpGet("Find")]
         public async Task<ActionResult> GetByGenreAndName([FromQuery] int? genreId, string? name)
         {
-            var genreList = await genreService.GetAllGenresAsync();
-            var gameList = await gameService.GetAllGamesAsync();
-            var gameGenreList = await gameGenreService.GetAllGameGenreAsync();
+            var result = await gameService.GetByGenreAndName(genreId, name);
 
-            IEnumerable<Game> result;
-
-            // To_Do put in GameService!!!
-            if (gameList != null && genreList != null && gameGenreList != null)
-            {
-                if (genreId != null && !string.IsNullOrEmpty(name))
-                {
-                    var getByNameAndGenreId = (from game in gameList
-                                               join gameGenre in gameGenreList
-                                               on game.Id equals gameGenre.GameId
-                                               join genre in genreList
-                                               on gameGenre.GenreId equals genre.Id
-                                               where genre.Id == genreId && game.GameName?.ToLower() == name.ToLower()
-                                               select game
-                          );
-
-                    result = getByNameAndGenreId;
-                }
-
-
-                else if (genreId == null && !string.IsNullOrEmpty(name))
-                {
-                    result = (from game in gameList
-                              where game.GameName?.ToLower() == name.ToLower()
-                              select game);
-                }
-
-                else if (genreId != null && string.IsNullOrEmpty(name))
-                {
-                    var getByGenreId = (from game in gameList
-                                        join gameGenre in gameGenreList
-                                        on game.Id equals gameGenre.GameId
-                                        join genre in genreList
-                                        on gameGenre.GenreId equals genre.Id
-                                        where genre.Id == genreId
-                                        select game
-                                       );
-
-                    result = getByGenreId;
-                }
-
-                else
-                {
-                    return BadRequest("You must enter GenreId or GameName");
-                }
-            }
-
-            else
+            if(result == null)
             {
                 return BadRequest("Something was wrong!");
             }
 
-            //return Ok(mapper.Map<IEnumerable<GameModel>>(gameList));
-            return Ok(result.ToList().Adapt<GameModel>());
+            return Ok(result.Adapt<GameModel>());
         }
 
         [HttpPost]
@@ -149,7 +99,6 @@ namespace GameStore.Controllers
         }
 
         // task 1.8
-
         [HttpDelete]
         public async Task<ActionResult> DeleteAsync([FromBody] GameModel model)
         {
@@ -163,7 +112,6 @@ namespace GameStore.Controllers
         }
 
         // task 3.1
-
         [HttpGet("GetCommentsByGameId")]
         public async Task<ActionResult> GetCommentsByGameIdAsync([FromQuery] int? gameId)
         {
@@ -200,6 +148,15 @@ namespace GameStore.Controllers
         public async Task<ActionResult> RestoreComment([FromQuery]int?id)
         {
             await commentService.RestoreCommentAsync(id);
+            return Ok();
+        }
+
+        // task 3.6
+
+        [HttpPut("ReplyOnComment")]
+        public async Task<ActionResult> ReplyOnCommentAsync([FromQuery]int? id, string? reply)
+        {
+            await commentService.ReplyOnCommentAsync(id, reply);
             return Ok();
         }
     }

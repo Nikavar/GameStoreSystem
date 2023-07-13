@@ -28,8 +28,8 @@ namespace GameStore.Data.Configuration
             builder.HasOne(o => o.Account)
                 .WithMany(o => o.Orders);
 
-            builder.HasOne(o => o.PaymentType)
-                .WithMany(o => o.Orders);
+            //builder.HasOne(o => o.PaymentType)
+            //    .WithMany(o => o.Orders);
 
         }
     }
