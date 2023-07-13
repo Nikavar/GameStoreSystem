@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +35,7 @@ namespace GameStore.Service
             if(account.FirstOrDefault() == null)
             {
                 var entity = mapper.Map<Account>(model);
+                entity.Password = SHA256.Create(entity.Password).ToString();
                 var result = await accountRepository.RegisterAccountAsync(entity);
 
                 return result;
