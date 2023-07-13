@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Data.Repositories;
 using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
@@ -44,7 +45,7 @@ namespace GameStore.Controllers
         // task 1.5
 
         [HttpGet("Find")]
-        public async Task<ActionResult> GetByGenreAndName([FromQuery]int? genreId, string? name)
+        public async Task<ActionResult> GetByGenreAndName([FromQuery] int? genreId, string? name)
         {
             var genreList = await genreService.GetAllGenresAsync();
             var gameList = await gameService.GetAllGamesAsync();
@@ -131,29 +132,40 @@ namespace GameStore.Controllers
 
         // task 1.7
         [HttpPut("api/Games/Update/{id}")]
-        public async Task<ActionResult> UpdateAsync([FromRoute]int id, GameModel model)
+        public async Task<ActionResult> UpdateAsync([FromRoute] int id, GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
             {
                 model.Id = id;
-                await gameService.UpdateGameAsync(model);                
+                await gameService.UpdateGameAsync(model);
                 return StatusCode(201);
             }
 
             return BadRequest();
         }
 
+        // task 1.8
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteAsync([FromBody] GameModel model)
+        [HttpDelete("api/Games/Delete/{id}")]
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
-            if (gameService.IsGameModelValidate(model))
+            try
             {
-                await gameService.DeleteGameAsync(model);
-                return Ok();
+                var wasDeleted = await gameService.DeleteGameAsync(id);
+            }
+            catch (NullReferenceException ex)
+            {
+                return StatusCode(404);
             }
 
-            return BadRequest();
+            catch (Exception ex)
+            {
+                return StatusCode(400);
+            }
+
+            return NoContent();
+
         }
+
     }
 }
