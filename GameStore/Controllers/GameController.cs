@@ -51,6 +51,7 @@ namespace GameStore.Controllers
         {
             if (gameService.IsGameModelValidate(model))
             {
+
                 await gameService.UpdateGameAsync(model);
                 return Ok();
             }
