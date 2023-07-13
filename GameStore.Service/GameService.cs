@@ -15,12 +15,14 @@ namespace GameStore.Service
 {
     public class GameService : IGameService
     {
+        private readonly IGameGenreRepository gameGenreRepository;
         private readonly IGameRepository gameRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public GameService(IGameRepository gameRepo, IUnitOfWork unitOfWork, IMapper mapper)
+        public GameService(IGameRepository gameRepo, IGameGenreRepository gameGenreRepo, IUnitOfWork unitOfWork, IMapper mapper)
         {
+            this.gameGenreRepository = gameGenreRepo;
             this.gameRepository = gameRepo;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
@@ -72,12 +74,20 @@ namespace GameStore.Service
             await gameRepository.DeleteManyAsync(filter);
         }
 
+        // task 1.4 update the game
         public async Task UpdateGameAsync(GameModel model)
         {
             var isValidate = IsGameModelValidate(model);
 
             if (isValidate)
             {
+                await gameGenreRepository.DeleteManyAsync(x => x.GameId == model.Id);
+
+                foreach(var genre in model.Genres)
+                {
+                    await gameGenreRepository.AddAsync(new GameGenre { GameId = model.Id, GenreId = genre.Id });
+                }
+
                 await gameRepository.UpdateAsync(mapper.Map<Game>(model));
             }
         }
@@ -90,9 +100,10 @@ namespace GameStore.Service
             return true;
         }
 
+        // Fixed _ task 1.6
         public async Task AddImageToGame(GameModel model)
         {
-            await gameRepository.AddImageToGame(mapper.Map<Game>(model));
+            await gameRepository.UpdateAsync(mapper.Map<Game>(model));
         }
     }
 
