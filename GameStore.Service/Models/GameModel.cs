@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameStore.Model.Models;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,8 +18,10 @@ namespace GameStore.Service.Models
         public string? GameName { get; set; }
         public decimal Price { get; set; }
         public string Currency { get; set; } = "US dollar";
+
         [Required]
         public string? Description { get; set; }
         public string? ProfileImage { get; set; }
+        public ICollection<Genre>? Genres { get; set; }
     }
 }

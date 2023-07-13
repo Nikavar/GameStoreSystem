@@ -25,6 +25,7 @@ namespace GameStore.Data.Configuration
 
             builder.Property(g => g.Currency)
                 .IsUnicode (false);
+
         }
     }
 }

@@ -12,17 +12,20 @@ namespace GameStore.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService gameService;
+        private readonly IMapper mapper;
 
-        public GameController(IGameService gameService)
+        public GameController(IGameService gameService, IMapper mapper)
         {
             this.gameService = gameService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAllAsync()
         {
-            var list = await gameService.GetAllGamesAsync();
-            return Ok(list);
+            var gameList = await gameService.GetAllGamesAsync();
+
+            return Ok(gameList);
         }
 
         [HttpGet("{id}")]
@@ -35,20 +38,21 @@ namespace GameStore.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAsync([FromBody] GameModel model)
         {
-            if(await gameService.AddGameAsync(model))
+            if (await gameService.AddGameAsync(model))
             {
-                return Ok("The Game created");
+                return Ok("The Game created!");
             }
 
-            return BadRequest("The Game could not be created");
+            return BadRequest("The Game could not be created!");
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
         {
-            if(gameService.IsGameModelValidate(model))
+            if (gameService.IsGameModelValidate(model))
             {
-                await gameService.UpdateGameAsync(model); 
+
+                await gameService.UpdateGameAsync(model);
                 return Ok();
             }
 
@@ -58,7 +62,7 @@ namespace GameStore.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteAsync([FromBody] GameModel model)
         {
-            if(gameService.IsGameModelValidate(model))
+            if (gameService.IsGameModelValidate(model))
             {
                 await gameService.DeleteGameAsync(model);
                 return Ok();
