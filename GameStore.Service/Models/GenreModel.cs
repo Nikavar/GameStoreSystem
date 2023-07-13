@@ -15,8 +15,6 @@ namespace GameStore.Service.Models
         public int? ParentId { get; set; }
         public string? GenreName { get; set; }
         public string? Description { get; set; }
-
-        [ForeignKey("ParentId")]
         public List<GenreModel>? ChildGenres { get; set; }
     }
 }

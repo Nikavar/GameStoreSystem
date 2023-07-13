@@ -4,7 +4,7 @@
 
 namespace GameStore.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,8 @@ namespace GameStore.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GenreName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentId = table.Column<int>(type: "int", nullable: true)
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -236,31 +237,31 @@ namespace GameStore.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Genres",
-                columns: new[] { "Id", "GenreName", "ParentId" },
+                columns: new[] { "Id", "Description", "GenreName", "ParentId" },
                 values: new object[,]
                 {
-                    { 1, "Strategy", null },
-                    { 6, "Rpg", null },
-                    { 7, "Sports", null },
-                    { 8, "Races", null },
-                    { 9, "Action", null },
-                    { 13, "Adventure", null },
-                    { 14, "Puzzle & skill", null },
-                    { 15, "Other", null }
+                    { 1, null, "Strategy", null },
+                    { 6, null, "Rpg", null },
+                    { 7, null, "Sports", null },
+                    { 8, null, "Races", null },
+                    { 9, null, "Action", null },
+                    { 13, null, "Adventure", null },
+                    { 14, null, "Puzzle & skill", null },
+                    { 15, null, "Other", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Genres",
-                columns: new[] { "Id", "GenreName", "ParentId" },
+                columns: new[] { "Id", "Description", "GenreName", "ParentId" },
                 values: new object[,]
                 {
-                    { 2, "Rally", 1 },
-                    { 3, "Arcade", 1 },
-                    { 4, "Formula", 1 },
-                    { 5, "Off - road", 1 },
-                    { 10, "Fps", 9 },
-                    { 11, "Tps", 9 },
-                    { 12, "Misc", 9 }
+                    { 2, null, "Rally", 1 },
+                    { 3, null, "Arcade", 1 },
+                    { 4, null, "Formula", 1 },
+                    { 5, null, "Off - road", 1 },
+                    { 10, null, "Fps", 9 },
+                    { 11, null, "Tps", 9 },
+                    { 12, null, "Misc", 9 }
                 });
 
             migrationBuilder.CreateIndex(

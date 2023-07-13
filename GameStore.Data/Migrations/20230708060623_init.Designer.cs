@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameStore.Data.Migrations
 {
     [DbContext(typeof(GameStoreContext))]
-    [Migration("20230706172042_Init")]
-    partial class Init
+    [Migration("20230708060623_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -145,6 +145,9 @@ namespace GameStore.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GenreName")
                         .IsRequired()
@@ -401,7 +404,7 @@ namespace GameStore.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("GameStore.Model.Models.Genre", "Genre")
-                        .WithMany("GameGenres")
+                        .WithMany("GenreGames")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -491,7 +494,7 @@ namespace GameStore.Data.Migrations
 
             modelBuilder.Entity("GameStore.Model.Models.Genre", b =>
                 {
-                    b.Navigation("GameGenres");
+                    b.Navigation("GenreGames");
 
                     b.Navigation("Genres");
                 });

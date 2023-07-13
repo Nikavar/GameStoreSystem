@@ -28,16 +28,16 @@ namespace GameStore.Service
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<GameModel>> GetAllGamesAsync()
+        public async Task<IEnumerable<Game>> GetAllGamesAsync()
         {
-            var entity = await gameRepository.GetAllAsync();
-
-            return mapper.Map<List<GameModel>>(entity);
+            return await gameRepository.GetAllAsync();
+            //return mapper.Map<IEnumerable<GameModel>>(entity);
         }
+
         public async Task<IEnumerable<GameModel>> GetManyGamesAsync(Expression<Func<Game, bool>> filter)
         {
             var entity = await gameRepository.GetManyAsync(filter);
-            return mapper.Map<List<GameModel>>(entity);
+            return mapper.Map<IEnumerable<GameModel>>(entity);
         }
 
         public async Task<GameModel> GetGameByIdAsync(params object[] key)
@@ -103,7 +103,7 @@ namespace GameStore.Service
 
     public interface IGameService
     {
-        Task<IEnumerable<GameModel>> GetAllGamesAsync();
+        Task<IEnumerable<Game>> GetAllGamesAsync();
         Task<IEnumerable<GameModel>> GetManyGamesAsync(Expression<Func<Game, bool>> filter);
         Task<GameModel> GetGameByIdAsync(params object[] key);
         Task<bool> AddGameAsync(GameModel entity);

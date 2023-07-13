@@ -25,7 +25,7 @@ namespace GameStore.Data.Configuration
             // relations
 
             builder.HasOne(x => x.ParentGenre)
-                .WithMany(x => x.Genres)
+                .WithMany(x => x.ChildGenres)
                 .IsRequired(false)
                 .HasForeignKey(k => k.ParentId);
         } 

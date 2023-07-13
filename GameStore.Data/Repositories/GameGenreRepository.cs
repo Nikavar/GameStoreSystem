@@ -10,9 +10,7 @@ namespace GameStore.Data.Repositories
 {
     public class GameGenreRepository : BaseRepository<GameGenre>, IGameGenreRepository
     {
-        public GameGenreRepository(IDbFactory dbFactory) : base(dbFactory)
-        {
-        }
+        public GameGenreRepository(IDbFactory dbFactory) : base(dbFactory) { }
     }
 
     public interface IGameGenreRepository : IBaseRepository<GameGenre>

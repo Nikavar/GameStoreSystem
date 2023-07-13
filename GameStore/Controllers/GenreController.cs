@@ -33,7 +33,7 @@ namespace GameStore.Controllers
                     GenreName = x.GenreName,                                     
                     ParentId = x.ParentId,
                     Description = x.Description,
-                    ChildGenres = x.Genres?.Adapt<List<GenreModel>>()
+                    ChildGenres = x.ChildGenres?.Adapt<List<GenreModel>>()
                 }).ToList();
 
             // test
