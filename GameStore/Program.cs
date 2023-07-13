@@ -2,6 +2,7 @@ using GameStore.Data;
 using GameStore.Data.Infrastructure;
 using GameStore.Data.Repositories;
 using GameStore.Service;
+using GameStore.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
