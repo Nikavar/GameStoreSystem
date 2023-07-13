@@ -92,7 +92,7 @@ namespace GameStore.Service
 
         public async Task AddImageToGame(GameModel model)
         {
-            await gameRepository.AddImageToGame(mapper.Map<Game>(model));
+            await gameRepository.UpdateAsync(mapper.Map<Game>(model));
         }
     }
 
