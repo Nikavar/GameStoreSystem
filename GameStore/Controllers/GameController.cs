@@ -26,7 +26,7 @@ namespace GameStore.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("AllGame")]
         public async Task<ActionResult> GetAllAsync()
         {
             var gameList = await gameService.GetAllGamesAsync();
@@ -116,7 +116,20 @@ namespace GameStore.Controllers
             return BadRequest("The Game could not be created!");
         }
 
-        [HttpPut]
+        // task 1.6
+        [HttpPut("AddImageToGame")]
+        public async Task<ActionResult> AddImageToGameAsync([FromBody] GameModel model)
+        {
+            if (gameService.IsGameModelValidate(model))
+            {
+                await gameService.AddImageToGame(model);
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPut("Update")]
         public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
         {
             if (gameService.IsGameModelValidate(model))

@@ -99,6 +99,12 @@ namespace GameStore.Service
 
             return true;
         }
+
+        // Fixed _ task 1.6
+        public async Task AddImageToGame(GameModel model)
+        {
+            await gameRepository.UpdateAsync(mapper.Map<Game>(model));
+        }
     }
 
     public interface IGameService
@@ -111,5 +117,6 @@ namespace GameStore.Service
         Task DeleteGameAsync(GameModel entity);
         Task DeleteManyGamesAsync(Expression<Func<Game, bool>> filter);
         bool IsGameModelValidate(GameModel model);
+        Task AddImageToGame(GameModel model);
     }
 }
