@@ -34,7 +34,7 @@ namespace GameStore.Service
         {
             if(string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
-                throw new NullReferenceException();
+                throw new Exception("username or/and password is null or empty!");
             }  
                 
             return await accountRepository.LoginAccountAsync(username, password);   
@@ -50,7 +50,7 @@ namespace GameStore.Service
             if(account.FirstOrDefault() == null)
             {
                 var entity = mapper.Map<Account>(model);
-                var result = await accountRepository.RegisterAccountAsync(entity);
+                //var result = await accountRepository.RegisterAccountAsync(entity);
 
                 return result;
             }
