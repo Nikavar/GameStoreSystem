@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GameStore.Data.Infrastructure;
 using GameStore.Data.Repositories;
 using GameStore.Model.Models;
@@ -76,11 +76,7 @@ namespace GameStore.Service
 
                     var result = await accountRepository.AddAsync(entity);
 
-                    return result;
-                }
-
-                throw new NullReferenceException("Your password must not be null");
-
+                return result;
             }
 
             throw new Exception("This account is already exists!");

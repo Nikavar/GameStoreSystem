@@ -1,4 +1,4 @@
-﻿using GameStore.Model.Models;
+using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
@@ -21,7 +21,7 @@ namespace GameStore.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost("Register")]
+        [HttpPost]
         public async Task<ActionResult> RegisterAccount([FromBody] AccountModel model)
         {
             var result = await accountService.RegisterAccountAsync(model);
