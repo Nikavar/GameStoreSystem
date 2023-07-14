@@ -28,7 +28,7 @@ namespace GameStore.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("api/Games")]
+        [HttpGet]
         public async Task<ActionResult> GetAllAsync()
         {
             var gameList = await gameService.GetAllGamesAsync();
@@ -53,7 +53,6 @@ namespace GameStore.Controllers
 
             IEnumerable<Game> result;
 
-            // To_Do put in GameService!!!
             if (gameList != null && genreList != null && gameGenreList != null)
             {
                 if (genreId != null && !string.IsNullOrEmpty(name))
@@ -107,7 +106,7 @@ namespace GameStore.Controllers
             return Ok(result.ToList().Adapt<GameModel>());
         }
 
-        [HttpPost]
+        [HttpPost("AddGame")]
         public async Task<ActionResult> AddAsync([FromBody] GameModel model)
         {
             if (await gameService.AddGameAsync(model))
@@ -132,7 +131,7 @@ namespace GameStore.Controllers
         }
 
         // task 1.7
-        [HttpPut("api/Games/Update/{id}")]
+        [HttpPut("Update/{id}")]
         public async Task<ActionResult> UpdateAsync([FromRoute] int id, GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
@@ -147,12 +146,12 @@ namespace GameStore.Controllers
 
         // task 1.8
 
-        [HttpDelete("api/Games/Delete/{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
             try
             {
-                var wasDeleted = await gameService.DeleteGameAsync(id);
+                await gameService.DeleteGameAsync(id);
             }
             catch (NullReferenceException ex)
             {

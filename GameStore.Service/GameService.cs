@@ -60,14 +60,24 @@ namespace GameStore.Service
             return false;
         }
 
-        public async Task DeleteGameAsync(GameModel model)
+        // task 1.8 gameService
+        public async Task<bool> DeleteGameAsync(int id)
         {
-            var isValidate = IsGameModelValidate(model);
+            var game = await GetGameByIdAsync(id);
 
-            if (isValidate)
-            {   
-                await gameRepository.DeleteAsync(mapper.Map<Game>(model));
-            }            
+            if (game != null)
+            {
+                var gameGenres = await gameGenreRepository.GetManyAsync(x => x.GameId == id);
+
+                if (gameGenres != null)
+                {
+                    await gameGenreRepository.DeleteManyAsync(x => x.GameId == id);
+                }
+                await gameRepository.DeleteAsync(mapper.Map<GameModel, Game>(game));
+
+                return true;
+            }
+            throw new NullReferenceException();
         }
 
         public async Task DeleteManyGamesAsync(Expression<Func<Game, bool>> filter)
@@ -106,11 +116,5 @@ namespace GameStore.Service
         {
             await gameRepository.UpdateAsync(mapper.Map<Game>(model));
         }
-
-        public Task DeleteGameAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }

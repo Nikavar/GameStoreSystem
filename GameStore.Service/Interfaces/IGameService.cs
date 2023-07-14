@@ -16,7 +16,7 @@ namespace GameStore.Service.Interfaces
         Task<GameModel> GetGameByIdAsync(params object[] key);
         Task<bool> AddGameAsync(GameModel entity);
         Task UpdateGameAsync(GameModel entity);
-        Task DeleteGameAsync(int id);
+        Task<bool> DeleteGameAsync(int id);
         Task DeleteManyGamesAsync(Expression<Func<Game, bool>> filter);
         bool IsGameModelValidate(GameModel model);
         Task AddImageToGame(GameModel model);
