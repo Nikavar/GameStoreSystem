@@ -10,16 +10,10 @@ namespace GameStore.Data.Repositories
         {
             
         }
-
-        public async Task<Account> RegisterAccountAsync(Account account)
-        {
-            await base.AddAsync(account);
-            return account;
-        }
     }
 
     public interface IAccountRepository : IBaseRepository<Account>
     {
-        Task<Account> RegisterAccountAsync(Account account);
+
     }
 }
