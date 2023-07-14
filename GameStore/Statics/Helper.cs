@@ -24,7 +24,7 @@ namespace GameStore.Statics
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: credentials
                 );
-
+        
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

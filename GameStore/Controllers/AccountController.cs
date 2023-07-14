@@ -22,7 +22,7 @@ namespace GameStore.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<ActionResult> RegisterAccount([FromBody] AccountModel model)
         {
             var result = await accountService.RegisterAccountAsync(model);
