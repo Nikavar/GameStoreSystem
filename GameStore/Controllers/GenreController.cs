@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Service;
+using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
 using Mapster;
 using Microsoft.AspNetCore.Http;

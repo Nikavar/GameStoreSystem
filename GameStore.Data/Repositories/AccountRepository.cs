@@ -1,6 +1,6 @@
 ﻿using GameStore.Data.Infrastructure;
 using GameStore.Model.Models;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Data.Repositories
 {
@@ -10,6 +10,7 @@ namespace GameStore.Data.Repositories
         {
             
         }
+
     }
 
     public interface IAccountRepository : IBaseRepository<Account>

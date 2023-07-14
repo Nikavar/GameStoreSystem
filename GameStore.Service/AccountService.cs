@@ -1,11 +1,17 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GameStore.Data.Infrastructure;
 using GameStore.Data.Repositories;
 using GameStore.Model.Models;
+using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
+using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -19,18 +25,33 @@ namespace GameStore.Service
         private readonly IAccountRepository accountRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
 
-        public AccountService(IAccountRepository accountRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public AccountService(IAccountRepository accountRepository, IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
         {
             this.accountRepository = accountRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.configuration = configuration;           
+        }
+
+        public async Task<Account> LoginAccountAsync(string username, string password)
+        {
+            if(string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
+            {
+                throw new Exception("username or/and password is null or empty!");
+            }
+
+            password = ComputeSha256Hash(password);
+            var entity = await accountRepository.GetManyAsync(x => x.UserName.ToLower() == username.ToLower() && x.Password == password);
+
+            return entity.FirstOrDefault();                 
         }
 
         public async Task<Account> RegisterAccountAsync(AccountModel model)
         {
             // Because email must be unique, I use it to check if the same account is already in DB or not
-            var account = await accountRepository.GetManyAsync(X => X.Email.Equals(model.Email));
+            var account = await accountRepository.GetManyAsync(X => X.Email.Equals(model.Email.ToLower()));
 
             // if not, I create a new one!
             if(account.FirstOrDefault() == null)
@@ -38,16 +59,16 @@ namespace GameStore.Service
                 if(model.Password != null)
                 {
                     var hashedPassword =  ComputeSha256Hash(model.Password);
-                    model.Password = hashedPassword;
+                    model.Password = hashedPassword;                    
 
                     var entity = new Account 
                     {
                         Id = model.Id, 
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Email = model.Email,
+                        Email = model.Email?.ToLower(),
                         Password = hashedPassword,
-                        UserName = model.UserName,
+                        UserName = model.UserName?.ToLower(),
                         AvatarImage = model.AvatarImage                      
                     };
 
@@ -55,11 +76,7 @@ namespace GameStore.Service
 
                     var result = await accountRepository.AddAsync(entity);
 
-                    return result;
-                }
-
-                throw new NullReferenceException("Your password must not be null");
-
+                return result;
             }
 
             throw new Exception("This account is already exists!");
@@ -83,10 +100,5 @@ namespace GameStore.Service
             }
         }
 
-    }
-
-    public interface IAccountService
-    {
-        Task<Account> RegisterAccountAsync(AccountModel model);
     }
 }

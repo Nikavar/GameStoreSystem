@@ -22,6 +22,5 @@ namespace GameStore.Service.Models
         [Required]
         public string? Password { get; set; }
         public string? AvatarImage { get; set; }
-
     }
 }

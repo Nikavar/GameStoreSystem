@@ -1,7 +1,8 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GameStore.Data.Infrastructure;
 using GameStore.Data.Repositories;
 using GameStore.Model.Models;
+using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
 using System;
 using System.Collections.Generic;
@@ -64,9 +65,9 @@ namespace GameStore.Service
             var isValidate = IsGameModelValidate(model);
 
             if (isValidate)
-            {
+            {   
                 await gameRepository.DeleteAsync(mapper.Map<Game>(model));
-            }
+            }            
         }
 
         public async Task DeleteManyGamesAsync(Expression<Func<Game, bool>> filter)
@@ -83,7 +84,7 @@ namespace GameStore.Service
             {
                 await gameGenreRepository.DeleteManyAsync(x => x.GameId == model.Id);
 
-                foreach (var genre in model.Genres)
+                foreach(var genre in model.Genres)
                 {
                     await gameGenreRepository.AddAsync(new GameGenre { GameId = model.Id, GenreId = genre.Id });
                 }
@@ -105,40 +106,6 @@ namespace GameStore.Service
         {
             await gameRepository.UpdateAsync(mapper.Map<Game>(model));
         }
-
-        // task 1.8 
-
-        public async Task<bool> DeleteGameAsync(int id)
-        {
-            var game = await GetGameByIdAsync(id);
-
-            if (game != null)
-            {
-                var gameGenres = await gameGenreRepository.GetManyAsync(x => x.GameId == id);
-
-                if (gameGenres != null)
-                {
-                    await gameGenreRepository.DeleteManyAsync(x => x.GameId == id);
-                }
-                await DeleteGameAsync(game);
-
-                return true;
-            }
-            throw new NullReferenceException();
-        }
     }
 
-    public interface IGameService
-    {
-        Task<IEnumerable<Game>> GetAllGamesAsync();
-        Task<IEnumerable<GameModel>> GetManyGamesAsync(Expression<Func<Game, bool>> filter);
-        Task<GameModel> GetGameByIdAsync(params object[] key);
-        Task<bool> AddGameAsync(GameModel entity);
-        Task UpdateGameAsync(GameModel entity);
-        Task DeleteGameAsync(GameModel entity);
-        Task DeleteManyGamesAsync(Expression<Func<Game, bool>> filter);
-        bool IsGameModelValidate(GameModel model);
-        Task AddImageToGame(GameModel model);
-        Task<bool> DeleteGameAsync(int id)
-    }
 }
