@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Service.Interfaces
 {
-    public interface IAccountService
+     public interface IAccountService
     {
         Task UpdateAccountAsync(Account model);
         Task<Account> RegisterAccountAsync(AccountModel model);

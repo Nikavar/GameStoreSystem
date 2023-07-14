@@ -1,4 +1,4 @@
-﻿using GameStore.Model.Models;
+using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
