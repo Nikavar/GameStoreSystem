@@ -32,12 +32,12 @@ namespace GameStore.Service
             this.accountRepository = accountRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            this.configuration = configuration;           
+            this.configuration = configuration;
         }
 
         public async Task<Account> LoginAccountAsync(string username, string password)
         {
-            if(string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
                 throw new Exception("username or/and password is null or empty!");
             }
@@ -45,7 +45,7 @@ namespace GameStore.Service
             password = ComputeSha256Hash(password);
             var entity = await accountRepository.GetManyAsync(x => x.UserName.ToLower() == username.ToLower() && x.Password == password);
 
-            return entity.FirstOrDefault();                 
+            return entity.FirstOrDefault();
         }
 
         public async Task<Account> RegisterAccountAsync(AccountModel model)
@@ -54,32 +54,35 @@ namespace GameStore.Service
             var account = await accountRepository.GetManyAsync(X => X.Email.Equals(model.Email.ToLower()));
 
             // if not, I create a new one!
-            if(account.FirstOrDefault() == null)
-            {               
-                if(model.Password != null)
+            if (account.FirstOrDefault() == null)
+            {
+                if (model.Password != null)
                 {
-                    var hashedPassword =  ComputeSha256Hash(model.Password);
-                    model.Password = hashedPassword;                    
+                    var hashedPassword = ComputeSha256Hash(model.Password);
+                    model.Password = hashedPassword;
 
-                    var entity = new Account 
+                    var entity = new Account
                     {
-                        Id = model.Id, 
+                        Id = model.Id,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Email?.ToLower(),
                         Password = hashedPassword,
                         UserName = model.UserName?.ToLower(),
-                        AvatarImage = model.AvatarImage                      
+                        AvatarImage = model.AvatarImage
                     };
 
                     var entity2 = mapper.Map<Account>(entity);
 
                     var result = await accountRepository.AddAsync(entity);
 
-                return result;
+                    return result;
+                }
+
+                throw new Exception("This account is already exists!");
             }
 
-            throw new Exception("This account is already exists!");
+            throw new NullReferenceException();
         }
 
         private string ComputeSha256Hash(string rawData)
@@ -98,7 +101,6 @@ namespace GameStore.Service
                 }
                 return builder.ToString();
             }
-        }
-
+        }        
     }
 }
