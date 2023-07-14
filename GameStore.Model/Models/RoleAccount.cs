@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace GameStore.Model.Models
 {
-    public class User
+    public class RoleAccount
     {
         [Key]
         public int Id { get; set; }
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
+        public int AccountId { get; set; }
+        public int RoleId { get; set; }       
 
         // relations
-        public ICollection<RoleUser>? RoleUsers { get; set; }
-        public ICollection<Customer>? Customers { get; set; }
+        public Account? Account { get; set; }
+        public Role? Role { get; set; }
     }
 }

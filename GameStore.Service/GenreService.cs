@@ -40,6 +40,6 @@ namespace GameStore.Service
     public interface IGenreService
     {
         Task<IEnumerable<Genre>> GetAllGenresAsync();
-        Task<GenreModel> GetGenreByIdAsync(int id);
+        Task<GenreModel> GetGenreByIdAsync(int id);        
     }
 }

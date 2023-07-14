@@ -21,5 +21,11 @@ namespace GameStore.Model.Models
         public string? Email { get; set; }
         [Required]
         public string? Password { get; set; }
+        public string? AvatarImage { get; set; }
+
+        // relations
+        public ICollection<Order>? Orders { get; set; }
+        public ICollection<RoleAccount>? AccountRoles { get; set; }
+
     }
 }

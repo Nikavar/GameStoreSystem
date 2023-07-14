@@ -12,6 +12,8 @@ namespace GameStore.Model.Models
         [Key]
         public int Id { get; set; }
         public string? RoleName { get; set; }       
-        public ICollection<RoleUser>? RoleUsers { get; set; }
+
+        // relations
+        public ICollection<RoleAccount>? RoleAccounts { get; set; }
     }
 }

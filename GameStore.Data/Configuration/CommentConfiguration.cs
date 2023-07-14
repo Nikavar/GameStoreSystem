@@ -18,26 +18,24 @@ namespace GameStore.Data.Configuration
 
             builder.HasKey(c => c.Id);
 
-            builder.Property(c => c.CommentText)
+            builder.Property(c => c.CommentContent)
                 .HasMaxLength(600)
                 .IsUnicode(true);
 
             builder.Property(c => c.GameId)
                 .HasColumnName("GameId");
 
-            builder.Property(c => c.ParentId)
-                .HasColumnName("ParentId");
+            builder.Property(c => c.ReplyId)
+                .HasColumnName("ReplyId");
 
             // relations
             builder.HasOne(g => g.Game)
                 .WithMany(c => c.Comments);
 
-            // To-Do
-            //modelBuilder.Entity<Comment>()
-            //    .HasMany(x => x.Replies)
-            //    .WithOne(x => x.Reply)
-            //    .IsRequired(false)
-            //    .HasForeignKey(c => c.ReplyId);
+            builder.HasMany(x => x.Replies)
+                .WithOne(x => x.Reply)
+                .IsRequired(false)
+                .HasForeignKey(c => c.ReplyId);
         }
     }
 }

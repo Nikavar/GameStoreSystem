@@ -9,26 +9,26 @@ using System.Threading.Tasks;
 
 namespace GameStore.Data.Configuration
 {
-    public class RoleUserConfiguration : IEntityTypeConfiguration<RoleUser>
+    public class RoleUserConfiguration : IEntityTypeConfiguration<RoleAccount>
     {
-        public void Configure(EntityTypeBuilder<RoleUser> builder)
+        public void Configure(EntityTypeBuilder<RoleAccount> builder)
         {
-            builder.ToTable("RoleUsers");
+            builder.ToTable("RoleAccounts");
 
             builder.HasKey(ru => ru.Id);
 
-            builder.Property(ru => ru.UserId)
+            builder.Property(ru => ru.AccountId)
                 .IsUnicode(false);
 
             builder.Property(ru => ru.RoleId)
                 .IsUnicode(false);
 
             // relations
-            builder.HasOne(u => u.User)
-                .WithMany(ru => ru.RoleUsers);
+            builder.HasOne(u => u.Account)
+                .WithMany(ru => ru.AccountRoles);
 
             builder.HasOne(r => r.Role)
-                .WithMany(ru => ru.RoleUsers);
+                .WithMany(ru => ru.RoleAccounts);
         }
     }
 }

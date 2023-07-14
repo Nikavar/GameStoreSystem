@@ -1,10 +1,6 @@
 ﻿using GameStore.Data.Infrastructure;
 using GameStore.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace GameStore.Data.Repositories
 {
@@ -15,16 +11,15 @@ namespace GameStore.Data.Repositories
             
         }
 
-        public async Task<Account> RegisterAccount(Account account)
+        public async Task<Account> RegisterAccountAsync(Account account)
         {
-            await dbSet.AddAsync(account);
-            await dataContext.SaveChangesAsync();
+            await base.AddAsync(account);
             return account;
         }
     }
 
     public interface IAccountRepository : IBaseRepository<Account>
     {
-        Task<Account> RegisterAccount(Account account);
+        Task<Account> RegisterAccountAsync(Account account);
     }
 }
