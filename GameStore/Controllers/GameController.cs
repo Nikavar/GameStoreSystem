@@ -8,24 +8,25 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
 
-    namespace GameStore.Controllers
+namespace GameStore.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GameController : ControllerBase
     {
-        [Route("api/[controller]")]
-        [ApiController]
-        public class GameController : ControllerBase
-        {
-            private readonly IGameService gameService;
-            private readonly IGenreService genreService;
-            private readonly IGameGenreService gameGenreService;
-            private readonly IMapper mapper;
+        private readonly IGameService gameService;
+        private readonly IGenreService genreService;
+        private readonly IGameGenreService gameGenreService;
+        private readonly IMapper mapper;
 
-            public GameController(IGameService gameService, IGenreService genreService, IGameGenreService gameGenreService, IMapper mapper)
-            {
-                this.gameService = gameService;
-                this.genreService = genreService;
-                this.gameGenreService = gameGenreService;
-                this.mapper = mapper;
-            }
+        public GameController(IGameService gameService, IGenreService genreService, 
+                              IGameGenreService gameGenreService, IMapper mapper)
+        {
+            this.gameService = gameService;
+            this.genreService = genreService;
+            this.gameGenreService = gameGenreService;
+            this.mapper = mapper;
+        }
 
             [HttpGet]
             public async Task<ActionResult> GetAllAsync()
@@ -163,7 +164,7 @@
                     return StatusCode(400);
                 }
 
-                return NoContent();
-            }
-        }
+            return BadRequest();
+        }       
     }
+}
