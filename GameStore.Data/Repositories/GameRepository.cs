@@ -12,12 +12,11 @@ namespace GameStore.Data.Repositories
     {
         public GameRepository(IDbFactory dbFactory) : base(dbFactory)
         {
-
-        }       
+        }
     }
 
     public interface IGameRepository : IBaseRepository<Game>
     {
-        
+       
     }
 }

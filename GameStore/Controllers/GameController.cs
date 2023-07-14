@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
