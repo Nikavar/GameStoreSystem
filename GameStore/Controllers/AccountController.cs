@@ -3,6 +3,7 @@ using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
 using GameStore.Statics;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -46,12 +47,22 @@ namespace GameStore.Controllers
                 if (rememberMe)
                 {
                     result.RememberMe = true;
-                    await accountService.UpdateAccountAsync(result);
+                    await accountService.UpdateAccountAsync(result.Adapt<AccountModel>());
                 }
 
                 return Ok(result);
             }
             return BadRequest("your username or/and password is wrong!"); 
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> LogOut([FromBody] AccountModel model)
+        {
+            HttpContext.Response.Cookies.Delete("Token");
+            model.RememberMe = false;
+            await accountService.UpdateAccountAsync(model); 
+
+            return Ok();
         }
     }
 }
