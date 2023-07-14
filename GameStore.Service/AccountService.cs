@@ -49,7 +49,7 @@ namespace GameStore.Service
         public async Task<Account> RegisterAccountAsync(AccountModel model)
         {
             // Because email must be unique, I use it to check if the same account is already in DB or not
-            var account = await accountRepository.GetManyAsync(X => X.Email.Equals(model.Email));
+            var account = await accountRepository.GetManyAsync(X => X.Email.ToLower().Equals(model.Email));
 
             // if not, I create a new one!
             if (account.FirstOrDefault() == null)
@@ -64,9 +64,9 @@ namespace GameStore.Service
                         Id = model.Id,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Email = model.Email,
+                        Email = model.Email.ToLower(),
                         Password = hashedPassword,
-                        UserName = model.UserName,
+                        UserName = model.UserName.ToLower(),
                         AvatarImage = model.AvatarImage
                     };
 
