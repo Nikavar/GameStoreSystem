@@ -117,4 +117,5 @@ namespace GameStore.Service
             await gameRepository.UpdateAsync(mapper.Map<Game>(model));
         }
     }
+
 }

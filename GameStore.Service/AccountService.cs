@@ -5,15 +5,13 @@ using GameStore.Model.Models;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
 using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +49,7 @@ namespace GameStore.Service
         public async Task<Account> RegisterAccountAsync(AccountModel model)
         {
             // Because email must be unique, I use it to check if the same account is already in DB or not
-            var account = await accountRepository.GetManyAsync(X => X.Email.Equals(model.Email.ToLower()));
+            var account = await accountRepository.GetManyAsync(X => X.Email.ToLower().Equals(model.Email));
 
             // if not, I create a new one!
             if (account.FirstOrDefault() == null)
@@ -66,9 +64,9 @@ namespace GameStore.Service
                         Id = model.Id,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Email = model.Email?.ToLower(),
+                        Email = model.Email.ToLower(),
                         Password = hashedPassword,
-                        UserName = model.UserName?.ToLower(),
+                        UserName = model.UserName.ToLower(),
                         AvatarImage = model.AvatarImage
                     };
 
@@ -79,10 +77,11 @@ namespace GameStore.Service
                     return result;
                 }
 
-                throw new Exception("This account is already exists!");
+                throw new NullReferenceException("Your password must not be null");
+
             }
 
-            throw new NullReferenceException();
+            throw new Exception("This account is already exists!");
         }
 
         private string ComputeSha256Hash(string rawData)
@@ -101,6 +100,11 @@ namespace GameStore.Service
                 }
                 return builder.ToString();
             }
-        }        
+        }
+
+        public async Task UpdateAccountAsync(Account entity)
+        {     
+            await accountRepository.UpdateAsync(entity);
+        }
     }
 }

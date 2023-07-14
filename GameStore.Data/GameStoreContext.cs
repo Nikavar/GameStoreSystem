@@ -137,6 +137,8 @@ namespace GameStore.Data
 
             modelBuilder.ApplyConfiguration(new GameConfiguration());
             modelBuilder.ApplyConfiguration(new GenreConfiguration());
+            modelBuilder.ApplyConfiguration(new GameGenreConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountConfiguration());
         }
     }
 }

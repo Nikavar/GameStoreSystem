@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using GameStore.Data.Repositories;
+using AutoMapper;
 using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
@@ -45,7 +44,7 @@ namespace GameStore.Controllers
         // task 1.5
 
         [HttpGet("Find")]
-        public async Task<ActionResult> GetByGenreAndName([FromQuery] int? genreId, string? name)
+        public async Task<ActionResult> GetByGenreAndName([FromQuery]int? genreId, string? name)
         {
             var genreList = await genreService.GetAllGenresAsync();
             var gameList = await gameService.GetAllGamesAsync();
@@ -53,6 +52,7 @@ namespace GameStore.Controllers
 
             IEnumerable<Game> result;
 
+            // To_Do put in GameService!!!
             if (gameList != null && genreList != null && gameGenreList != null)
             {
                 if (genreId != null && !string.IsNullOrEmpty(name))
@@ -106,7 +106,7 @@ namespace GameStore.Controllers
             return Ok(result.ToList().Adapt<GameModel>());
         }
 
-        [HttpPost("AddGame")]
+        [HttpPost]
         public async Task<ActionResult> AddAsync([FromBody] GameModel model)
         {
             if (await gameService.AddGameAsync(model))
@@ -132,12 +132,12 @@ namespace GameStore.Controllers
 
         // task 1.7
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult> UpdateAsync([FromRoute] int id, GameModel model)
+        public async Task<ActionResult> UpdateAsync([FromRoute]int id, GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
             {
                 model.Id = id;
-                await gameService.UpdateGameAsync(model);
+                await gameService.UpdateGameAsync(model);                
                 return StatusCode(201);
             }
 

@@ -22,10 +22,10 @@ namespace GameStore.Model.Models
         [Required]
         public string? Password { get; set; }
         public string? AvatarImage { get; set; }
+        public bool RememberMe { get; set; }
 
         // relations
         public ICollection<Order>? Orders { get; set; }
         public ICollection<RoleAccount>? AccountRoles { get; set; }
-
     }
 }

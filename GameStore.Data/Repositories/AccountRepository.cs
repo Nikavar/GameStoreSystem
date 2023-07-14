@@ -8,9 +8,8 @@ namespace GameStore.Data.Repositories
     {
         public AccountRepository(IDbFactory dbFactory) : base(dbFactory)
         {
-            
+        
         }
-
     }
 
     public interface IAccountRepository : IBaseRepository<Account>
