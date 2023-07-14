@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace GameStore.Service.Interfaces
 {
-    public interface IAccountService
+     public interface IAccountService
     {
         Task<Account> RegisterAccountAsync(AccountModel model);
         Task<Account> LoginAccountAsync(string username, string password);
+        Task UpdateAccountAsync(Account model);
+        Task<AccountModel> GetAccountByIdAsync(params object[] key);
         Task UpdateAccountAsync(AccountModel model);
         Task AddAvatarToAccount(AccountModel model);
     }

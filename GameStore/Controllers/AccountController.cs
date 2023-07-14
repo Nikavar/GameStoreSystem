@@ -2,11 +2,12 @@
 using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
-using GameStore.Statics;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using GameStore.Service;
+
 
 namespace GameStore.Controllers
 {
@@ -41,12 +42,13 @@ namespace GameStore.Controllers
 
             if (result != null)
             {
+                var token = Helper.TokenGeneration(result, configuration);
+                HttpContext.Response.Cookies.Append("Token", token);
+
                 if (rememberMe)
                 {
-                    var token = Helper.TokenGeneration(result, configuration);
-                    HttpContext.Response.Cookies.Append("Token", token);
                     result.RememberMe = true;
-                    await accountService.UpdateAccountAsync(result.Adapt<AccountModel>());
+                    await accountService.UpdateAccountAsync(result);
                 }
 
                 // task 2.6 _ First name and Last name are displayed on Site
@@ -62,12 +64,37 @@ namespace GameStore.Controllers
             return BadRequest("your username or/and password is wrong!"); 
         }
 
-        [HttpPut]
+
+        // task2.6 To_Do
+
+        [HttpGet("Profile")]
+        public async Task<ActionResult> GetProfileInfo([FromQuery]string username, string password)
+        {
+            //ანუ აქ ქუქიშ ისეამოწმე არის თუ არა ავტორიზებული, თუ არაა - დააბრუნე Not Authorized კოდი, 
+            //თუ არის -var model = await accountService.GetAccountByIdAsync(result.Id);
+            //return Ok(model);
+            //ლოგიკა ატრიბუტში გადაიტანე
+            //და ეგ ატრიბუტი დაადე
+            //კომენტარის დამატებას, logout, ს ამას და ა.შ.
+
+            var result = await accountService.LoginAccountAsync(username, password);
+
+            if (result != null)
+            {
+                var model = await accountService.GetAccountByIdAsync(result.Id);
+                return Ok(model);
+            }
+
+            return NotFound();
+        }
+
+
+        [HttpPut("LogOut")]
         public async Task<ActionResult> LogOut([FromBody] AccountModel model)
         {
             HttpContext.Response.Cookies.Delete("Token");
             model.RememberMe = false;
-            await accountService.UpdateAccountAsync(model); 
+            await accountService.UpdateAccountAsync(model.Adapt<Account>()); 
 
             return Ok();
         }

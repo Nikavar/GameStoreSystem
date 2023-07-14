@@ -1,5 +1,5 @@
-﻿namespace GameStore.Statics
-{
+﻿namespace GameStore.Service.Models
+{ 
     public static class Warnings
     {
         public static string AccountAlreadyExists<TEntity>() where TEntity : class
