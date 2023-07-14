@@ -17,17 +17,14 @@ namespace GameStore.Controllers
         private readonly IGameService gameService;
         private readonly IGenreService genreService;
         private readonly IGameGenreService gameGenreService;
-        private readonly ICommentService commentService;
         private readonly IMapper mapper;
 
         public GameController(IGameService gameService, IGenreService genreService, 
-                              IGameGenreService gameGenreService, ICommentService commentService, 
-                              IMapper mapper)
+                              IGameGenreService gameGenreService, IMapper mapper)
         {
             this.gameService = gameService;
             this.genreService = genreService;
             this.gameGenreService = gameGenreService;
-            this.commentService = commentService;
             this.mapper = mapper;
         }
 
@@ -168,14 +165,6 @@ namespace GameStore.Controllers
                 }
 
             return BadRequest();
-        }
-
-
-        [HttpGet("GetCommentsByGameId")]
-        public async Task<ActionResult> GetCommentsByGameIdAsync([FromQuery] int? gameId)
-        {
-            var model = await commentService.GetCommentsByGameIdAsync(gameId);
-            return Ok(model);
-        }
+        }       
     }
 }
