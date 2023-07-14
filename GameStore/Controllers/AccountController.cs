@@ -1,4 +1,4 @@
-﻿using GameStore.Model.Models;
+using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
@@ -41,10 +41,11 @@ namespace GameStore.Controllers
 
             if (result != null)
             {
+                var token = Helper.TokenGeneration(result, configuration);
+                HttpContext.Response.Cookies.Append("Token", token);
+
                 if (rememberMe)
                 {
-                    var token = Helper.TokenGeneration(result, configuration);
-                    HttpContext.Response.Cookies.Append("Token", token);
                     result.RememberMe = true;
                     await accountService.UpdateAccountAsync(result.Adapt<AccountModel>());
                 }
