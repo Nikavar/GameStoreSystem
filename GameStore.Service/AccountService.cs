@@ -106,5 +106,11 @@ namespace GameStore.Service
         {     
             await accountRepository.UpdateAsync(entity);
         }
+
+        public async Task<AccountModel> GetAccountByIdAsync(params object[] key)
+        {
+            var entity = await accountRepository.GetByIdAsync(key);
+            return mapper.Map<AccountModel>(entity);
+        }
     }
 }
