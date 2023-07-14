@@ -119,5 +119,6 @@ namespace GameStore.Service
             var entity = await accountRepository.GetByIdAsync(key);
             return mapper.Map<AccountModel>(entity);
         }
+
     }
 }
