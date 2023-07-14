@@ -146,16 +146,24 @@ namespace GameStore.Controllers
 
         // task 1.8
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteAsync([FromBody] GameModel model)
+        [HttpDelete("Delete/{id}")]
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
-            if (gameService.IsGameModelValidate(model))
+            try
             {
-                await gameService.DeleteGameAsync(model);
-                return Ok();
+                await gameService.DeleteGameAsync(id);
+            }
+            catch (NullReferenceException ex)
+            {
+                return StatusCode(404);
             }
 
-            return BadRequest();
+            catch (Exception ex)
+            {
+                return StatusCode(400);
+            }
+
+            return NoContent();
         }
     }
 }
