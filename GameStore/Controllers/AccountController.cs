@@ -1,4 +1,4 @@
-using GameStore.Model.Models;
+﻿using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
@@ -63,6 +63,31 @@ namespace GameStore.Controllers
             }
             return BadRequest("your username or/and password is wrong!"); 
         }
+
+
+        // task2.6 To_Do
+
+        [HttpGet("Profile")]
+        public async Task<ActionResult> GetProfileInfo([FromQuery]string username, string password)
+        {
+            //ანუ აქ ქუქიშ ისეამოწმე არის თუ არა ავტორიზებული, თუ არაა - დააბრუნე Not Authorized კოდი, 
+            //თუ არის -var model = await accountService.GetAccountByIdAsync(result.Id);
+            //return Ok(model);
+            //ლოგიკა ატრიბუტში გადაიტანე
+            //და ეგ ატრიბუტი დაადე
+            //კომენტარის დამატებას, logout, ს ამას და ა.შ.
+
+            var result = await accountService.LoginAccountAsync(username, password);
+
+            if (result != null)
+            {
+                var model = await accountService.GetAccountByIdAsync(result.Id);
+                return Ok(model);
+            }
+
+            return NotFound();
+        }
+
 
         [HttpPut("LogOut")]
         public async Task<ActionResult> LogOut([FromBody] AccountModel model)

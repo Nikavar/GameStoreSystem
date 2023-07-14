@@ -14,5 +14,6 @@ namespace GameStore.Service.Interfaces
         Task<Account> RegisterAccountAsync(AccountModel model);
         Task<Account> LoginAccountAsync(string username, string password);
         Task UpdateAccountAsync(Account model);
+        Task<AccountModel> GetAccountByIdAsync(params object[] key);
     }
 }
