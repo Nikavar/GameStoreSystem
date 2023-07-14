@@ -98,5 +98,19 @@ namespace GameStore.Controllers
 
             return Ok();
         }
+
+        // task 2.7
+
+        [HttpPut("AddAvatarToAccount")]
+        public async Task<ActionResult> AddAvatarToAccount([FromBody] AccountModel model)
+        {
+            if(model.AvatarImage != null)
+            {
+                await accountService.AddAvatarToAccount(model);
+                return Ok();
+            }
+
+            return BadRequest("You must to attach an Avatar Picture");
+        }
     }
 }
