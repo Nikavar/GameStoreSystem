@@ -164,8 +164,6 @@ namespace GameStore.Controllers
             }
 
             return NoContent();
-
         }
-
     }
 }
