@@ -27,7 +27,7 @@ namespace GameStore.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("api/Games")]
+        [HttpGet]
         public async Task<ActionResult> GetAllAsync()
         {
             var gameList = await gameService.GetAllGamesAsync();
@@ -131,7 +131,7 @@ namespace GameStore.Controllers
         }
 
         // task 1.7
-        [HttpPut("api/Games/Update/{id}")]
+        [HttpPut("Update/{id}")]
         public async Task<ActionResult> UpdateAsync([FromRoute]int id, GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
