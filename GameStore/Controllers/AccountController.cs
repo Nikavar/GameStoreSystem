@@ -2,11 +2,12 @@ using GameStore.Model.Models;
 using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
-using GameStore.Statics;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using GameStore.Service;
+
 
 namespace GameStore.Controllers
 {
@@ -47,7 +48,7 @@ namespace GameStore.Controllers
                 if (rememberMe)
                 {
                     result.RememberMe = true;
-                    await accountService.UpdateAccountAsync(result.Adapt<AccountModel>());
+                    await accountService.UpdateAccountAsync(result);
                 }
 
                 // task 2.6 _ First name and Last name are displayed on Site
@@ -63,12 +64,12 @@ namespace GameStore.Controllers
             return BadRequest("your username or/and password is wrong!"); 
         }
 
-        [HttpPut]
+        [HttpPut("LogOut")]
         public async Task<ActionResult> LogOut([FromBody] AccountModel model)
         {
             HttpContext.Response.Cookies.Delete("Token");
             model.RememberMe = false;
-            await accountService.UpdateAccountAsync(model); 
+            await accountService.UpdateAccountAsync(model.Adapt<Account>()); 
 
             return Ok();
         }
