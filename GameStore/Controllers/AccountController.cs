@@ -2,10 +2,9 @@
 using GameStore.Service;
 using GameStore.Service.Interfaces;
 using GameStore.Service.Models;
-using GameStore.Statics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Controllers
 {
@@ -18,7 +17,7 @@ namespace GameStore.Controllers
 
         public AccountController(IAccountService accountService, IConfiguration configuration)
         {
-            this.accountService = accountService;   
+            this.accountService = accountService;
             this.configuration = configuration;
         }
 
@@ -26,25 +25,34 @@ namespace GameStore.Controllers
         public async Task<ActionResult> RegisterAccount([FromBody] AccountModel model)
         {
             var result = await accountService.RegisterAccountAsync(model);
-            
-            if(result != null)
+
+            if (result != null)
                 return Ok(result);
 
             return BadRequest(Warnings.AccountAlreadyExists<Account>());
         }
 
-        [HttpPost]
-        public async Task<ActionResult> LoginAccount(string username, string password)
+        [HttpPost("Login")]
+        public async Task<ActionResult> LoginAccount([Required] string username, [Required] string password)
         {
-            var result = await accountService.LoginAccountAsync(username, password);
-
-            if (result != null)
+            try
             {
-                var token = Helper.TokenGeneration(result, configuration);
-                HttpContext.Response.Cookies.Append("Token", token);
-                return Ok(result);
+                var result = await accountService.LoginAccountAsync(username, password);
+
+                if (result != null)
+                {
+                    var token = Helper.TokenGeneration(result, configuration);
+                    HttpContext.Response.Cookies.Append("Token", token);
+                    return Ok(result);
+                }
             }
-            return BadRequest("your username or/and password is wrong!"); 
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return BadRequest("your username or/and password is wrong!");
         }
     }
 }
