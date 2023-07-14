@@ -27,11 +27,10 @@ namespace GameStore.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("GetAllGame")]
+        [HttpGet("api/Games")]
         public async Task<ActionResult> GetAllAsync()
         {
             var gameList = await gameService.GetAllGamesAsync();
-            //var model = mapper.Map<IEnumerable<GameModel>>(gameList);
             return Ok(gameList);
         }
 
@@ -49,7 +48,7 @@ namespace GameStore.Controllers
         {
             var genreList = await genreService.GetAllGenresAsync();
             var gameList = await gameService.GetAllGamesAsync();
-            var gameGenreList = await gameGenreService.GetAllGameGenreAsync();
+            var gameGenreList = await gameGenreService.GetAllGameGenresAsync();
 
             IEnumerable<Game> result;
 
@@ -119,7 +118,7 @@ namespace GameStore.Controllers
         }
 
         // task 1.6
-        [HttpPost("AddImageToGame")]
+        [HttpPut("AddImageToGame")]
         public async Task<ActionResult> AddImageToGameAsync([FromBody] GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
@@ -132,14 +131,14 @@ namespace GameStore.Controllers
         }
 
         // task 1.7
-        [HttpPut("UpdateGame")]
-        public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
+        [HttpPut("api/Games/Update/{id}")]
+        public async Task<ActionResult> UpdateAsync([FromRoute]int id, GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
             {
-
-                await gameService.UpdateGameAsync(model);
-                return Ok();
+                model.Id = id;
+                await gameService.UpdateGameAsync(model);                
+                return StatusCode(201);
             }
 
             return BadRequest();

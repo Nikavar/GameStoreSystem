@@ -101,9 +101,10 @@ namespace GameStore.Service
             return true;
         }
 
+        // Fixed _ task 1.6
         public async Task AddImageToGame(GameModel model)
         {
-            await gameRepository.AddImageToGame(mapper.Map<Game>(model));
+            await gameRepository.UpdateAsync(mapper.Map<Game>(model));
         }
     }
 
