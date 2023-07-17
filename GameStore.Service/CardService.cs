@@ -28,7 +28,7 @@ namespace GameStore.Service
 
 
         // task 4.1
-        public async Task<Card> AddCardAsync(CardModel model)
+        public async Task<Card> AddCardAsync(int? gameId, CardModel model)
 		{
 			var entity = mapper.Map<Card>(model);
 
