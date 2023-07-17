@@ -11,6 +11,7 @@ namespace GameStore.Service.Interfaces
 {
     public interface ICardService
 	{
+
         Task<Card> AddCardAsync(CardModel entity);
 
     }
