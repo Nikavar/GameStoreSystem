@@ -66,5 +66,18 @@ namespace GameStore.Controllers
 			return BadRequest(400);
 		}
 
+		// task 4.4
+
+		[HttpPost("Card/{cardId}")]
+		public async Task<ActionResult> ShowCardInfo([FromRoute] int cardId, [FromBody] CardModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				await cardService.UpdateCardAsync(cardId, model);
+				return StatusCode(201);
+			}
+			return BadRequest(400);
+		}
+
 	}
 }

@@ -50,14 +50,9 @@ namespace GameStore.Service
 			var result = await GetManyCardsAsync(x => x.OrderId == model.OrderId && x.GameId == model.GameId);
 			var order = result.FirstOrDefault();
 
-			if (order != null)
-			{
-				order.OrderCount++;
-				order.TotalAmount += gamePrice;
-				return await cardRepository.AddAsync(order);
-			}
-
-			throw new NotImplementedException();
+			order.OrderCount++;
+			order.TotalAmount = order.OrderCount * gamePrice;
+			return await cardRepository.AddAsync(order);			
 		}
 
 		// task 4.2
@@ -65,6 +60,7 @@ namespace GameStore.Service
 		{
 			return await cardRepository.GetAllAsync();
 		}
+
 
 		public async Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter)
 		{
@@ -78,6 +74,16 @@ namespace GameStore.Service
 
 			var entity = mapper.Map<Card>(model);
 			await cardRepository.UpdateAsync(entity);
+		}
+
+		// task 4.4 
+		// I calculate TotalPrice in task 4.1
+		public async Task<CardModel> GetCardById(int? cardId)
+		{
+			var entity = await cardRepository.GetByIdAsync(cardId);
+			var model = mapper.Map<CardModel>(entity);
+
+			return model;
 		}
 
 	}

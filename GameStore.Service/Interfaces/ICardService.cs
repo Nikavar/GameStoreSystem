@@ -15,6 +15,7 @@ namespace GameStore.Service.Interfaces
 		Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter);
 		Task<Card> AddCardAsync(int? gameId, CardModel entity);
 		Task UpdateCardAsync(int cardId, CardModel entity);
+		Task<CardModel> GetCardById(int? cardId);
 
 	}
 }
