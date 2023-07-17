@@ -167,5 +167,12 @@ namespace GameStore.Controllers
             return BadRequest();
         }
 
+        // task 3.5
+        [HttpPut("RestoreComment")]
+        public async Task<ActionResult> RestoreComment([FromQuery]int?id)
+        {
+            await commentService.RestoreCommentAsync(id);
+            return Ok();
+        }
     }
 }
