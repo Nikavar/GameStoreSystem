@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/")]
 	[ApiController]
 	public class CardController : ControllerBase
 	{
@@ -20,8 +20,8 @@ namespace GameStore.Controllers
 
 		// task 4.1
 
-        [HttpPost("Game/{gameId}/AddCard")]
-		public async Task<ActionResult> AddGameToCard([FromQuery] int? gameId, [FromBody] CardModel model)
+		[HttpPost("Game/{gameId}/AddCard")]
+		public async Task<ActionResult> AddGameToCard([FromRoute] int? gameId, [FromBody] CardModel model)
 		{
 			if (ModelState.IsValid)
 			{
