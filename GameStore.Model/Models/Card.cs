@@ -11,9 +11,10 @@ namespace GameStore.Model.Models
     {
         [Key]
         public int Id { get; set; }
-        public int OrderId { get; set; }
-        public int GameId { get; set; }
+        public int? OrderId { get; set; }
+        public int? GameId { get; set; }
         public int OrderCount { get; set; } = 0;
+        public decimal TotalAmount { get; set; } = 0;
 
         // relations
         public Order? Order { get; set; }

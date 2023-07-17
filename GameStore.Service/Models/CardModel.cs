@@ -14,5 +14,7 @@ namespace GameStore.Service.Models
 		public int? OrderId { get; set; }
 		public int? GameId { get; set; }
 		public int OrderCount { get; set; } = 0;
+		public decimal TotalAmount { get; set; } = 0;
+
 	}
 }
