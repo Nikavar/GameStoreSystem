@@ -39,6 +39,5 @@ namespace GameStore.Controllers
             var result = await commentService.AddCommentAsync(model);
             return Ok(result);
         }
-
-	}
+	  }
 }
