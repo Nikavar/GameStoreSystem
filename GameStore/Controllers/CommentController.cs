@@ -57,5 +57,13 @@ namespace GameStore.Controllers
 			await commentService.DeleteCommentAsync(gameId, commentId);
 			return Ok();
 		}
+
+		// task 3.5
+		[HttpPut("Game/{gameId}/Restore/{commentId}")]
+		public async Task<ActionResult> RestoreComment([FromRoute] int? gameId, [FromRoute] int? commentId)
+		{
+			await commentService.RestoreCommentAsync(gameId, commentId);
+			return Ok();
+		}
 	}
 }
