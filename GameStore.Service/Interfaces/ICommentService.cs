@@ -11,10 +11,10 @@ namespace GameStore.Service.Interfaces
     public interface ICommentService
     {
         Task<IEnumerable<CommentModel>> GetCommentsByGameIdAsync(int? id);
-        Task<CommentModel> PostCommentToGameAsync(CommentModel model);
+        Task<CommentModel> AddCommentAsync(CommentModel model);
         Task UpdateCommentAsync(CommentModel model);
-        Task DeleteCommentAsync(int? id);
-        Task RestoreCommentAsync(int? id);
-        Task ReplyOnCommentAsync(int? id, string? reply);
+        Task DeleteCommentAsync(int? gameId, int? commentId);
+        Task RestoreCommentAsync(int? gameId, int? commentId);
+        Task ReplyOnCommentAsync(int? gameId, int? commentId, CommentModel model);
     }
 }

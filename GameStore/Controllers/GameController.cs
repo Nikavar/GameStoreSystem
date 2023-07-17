@@ -1,12 +1,12 @@
-﻿using AutoMapper;
-using GameStore.Model.Models;
-using GameStore.Service;
-using GameStore.Service.Interfaces;
-using GameStore.Service.Models;
-using Mapster;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+    using AutoMapper;
+    using GameStore.Model.Models;
+    using GameStore.Service;
+    using GameStore.Service.Interfaces;
+    using GameStore.Service.Models;
+    using Mapster;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
 
 namespace GameStore.Controllers
 {
@@ -17,25 +17,22 @@ namespace GameStore.Controllers
         private readonly IGameService gameService;
         private readonly IGenreService genreService;
         private readonly IGameGenreService gameGenreService;
-        private readonly ICommentService commentService;
         private readonly IMapper mapper;
 
         public GameController(IGameService gameService, IGenreService genreService,
-                              IGameGenreService gameGenreService, ICommentService commentService,
+                              IGameGenreService gameGenreService,
                               IMapper mapper)
         {
             this.gameService = gameService;
             this.genreService = genreService;
             this.gameGenreService = gameGenreService;
-            this.commentService = commentService;
             this.mapper = mapper;
         }
 
-        [HttpGet("GetAllGame")]
+        [HttpGet]
         public async Task<ActionResult> GetAllAsync()
         {
             var gameList = await gameService.GetAllGamesAsync();
-            //var model = mapper.Map<IEnumerable<GameModel>>(gameList);
             return Ok(gameList);
         }
 
@@ -86,78 +83,39 @@ namespace GameStore.Controllers
         }
 
         // task 1.7
-        [HttpPut("UpdateGame")]
-        public async Task<ActionResult> UpdateAsync([FromBody] GameModel model)
+        [HttpPut("Update/{id}")]
+        public async Task<ActionResult> UpdateAsync([FromRoute] int id, GameModel model)
         {
             if (gameService.IsGameModelValidate(model))
             {
+                model.Id = id;
                 await gameService.UpdateGameAsync(model);
-                return Ok();
+                return StatusCode(201);
             }
 
             return BadRequest();
         }
 
         // task 1.8
-        [HttpDelete]
-        public async Task<ActionResult> DeleteAsync([FromBody] GameModel model)
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
-            if (gameService.IsGameModelValidate(model))
+            try
             {
-                await gameService.DeleteGameAsync(model);
-                return Ok();
+                await gameService.DeleteGameAsync(id);
+            }
+            catch (NullReferenceException ex)
+            {
+                return StatusCode(404);
             }
 
+            catch (Exception ex)
+            {
+                return StatusCode(400);
+            }
             return BadRequest();
         }
 
-        // task 3.1
-        [HttpGet("GetCommentsByGameId")]
-        public async Task<ActionResult> GetCommentsByGameIdAsync([FromQuery] int? gameId)
-        {
-            var model = await commentService.GetCommentsByGameIdAsync(gameId);
-            return Ok(model);
-        }
-
-        // task 3.2
-        [HttpPost("PostComment")]
-        public async Task<ActionResult> PostCommentToGameAsync(CommentModel model)
-        {
-            var result = await commentService.PostCommentToGameAsync(model);
-            return Ok(result);
-        }
-
-        // task 3.3
-        [HttpPut("UpdateComment")]
-        public async Task<ActionResult> UpdateCommentAsync([FromBody] CommentModel model)
-        {
-            await commentService.UpdateCommentAsync(model);
-            return Ok();
-        }
-
-        // task 3.4
-        [HttpDelete("DeleteComment")]
-        public async Task<ActionResult> DeleteComment([FromQuery]int?id)
-        {
-            await commentService.DeleteCommentAsync(id);
-            return Ok();
-        }
-
-        // task 3.5
-        [HttpPut("RestoreComment")]
-        public async Task<ActionResult> RestoreComment([FromQuery]int?id)
-        {
-            await commentService.RestoreCommentAsync(id);
-            return Ok();
-        }
-
-        // task 3.6
-
-        [HttpPut("ReplyOnComment")]
-        public async Task<ActionResult> ReplyOnCommentAsync([FromQuery]int? id, string? reply)
-        {
-            await commentService.ReplyOnCommentAsync(id, reply);
-            return Ok();
-        }
     }
 }
