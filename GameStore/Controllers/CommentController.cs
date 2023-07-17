@@ -43,27 +43,27 @@ namespace GameStore.Controllers
         // task 3.3
         [HttpPut("Game/{gameId}/Update/{commentId}")]
         public async Task<ActionResult> UpdateCommentAsync([FromRoute] int gameId, [FromRoute] int commentId, [FromBody] CommentModel model)
-		{
-            model.GameId = gameId;
-            model.Id = commentId;
-			await commentService.UpdateCommentAsync(model);
-			return Ok();
-		}
+        {
+                model.GameId = gameId;
+                model.Id = commentId;
+          await commentService.UpdateCommentAsync(model);
+          return Ok();
+        }
 
         // task 3.4
         [HttpDelete("Game/{gameId}/Delete/{commentId}")]
         public async Task<ActionResult> DeleteComment([FromRoute] int? gameId, [FromRoute] int? commentId)
-		{
-			await commentService.DeleteCommentAsync(gameId, commentId);
-			return Ok();
-		}
+        {
+          await commentService.DeleteCommentAsync(gameId, commentId);
+          return Ok();
+        }
 
-		// task 3.5
-		[HttpPut("Game/{gameId}/Restore/{commentId}")]
-		public async Task<ActionResult> RestoreComment([FromRoute] int? gameId, [FromRoute] int? commentId)
-		{
-			await commentService.RestoreCommentAsync(gameId, commentId);
-			return Ok();
-		}
-	}
+        // task 3.5
+        [HttpPut("Game/{gameId}/Restore/{commentId}")]
+        public async Task<ActionResult> RestoreComment([FromRoute] int? gameId, [FromRoute] int? commentId)
+        {
+          await commentService.RestoreCommentAsync(gameId, commentId);
+          return Ok();
+        }
+    }
 }
