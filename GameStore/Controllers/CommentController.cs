@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.Controllers
 {
-
-
     [Route("api/")]
     [ApiController]
     public class CommentController : ControllerBase

@@ -14,6 +14,8 @@ namespace GameStore.Service.Models
         [Key]
         public int Id { get; set; }
         public int? ReplyId { get; set; }
+
+        [MaxLength(length:600)]
         public string? CommentContent { get; set; }
         public string? User { get; set; }
         public DateTime PostedTime { get; set; }
