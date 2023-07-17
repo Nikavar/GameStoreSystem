@@ -25,8 +25,16 @@ namespace GameStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var result = await cardService.AddCardAsync(gameId, model);
-				return StatusCode(201, result);
+				try
+				{
+					var result = await cardService.AddCardAsync(gameId, model);
+					return StatusCode(201, result);
+				}
+				catch (Exception ex)
+				{
+					return BadRequest(ex.Message);
+				}
+
 			}
 			return BadRequest(400);
 		}
@@ -41,6 +49,20 @@ namespace GameStore.Controllers
 			if (result != null)
 				return StatusCode(201, result);
 
+			return BadRequest(400);
+		}
+
+
+		// task 4.3
+
+		[HttpPost("Card/Update/{cardId}")]
+		public async Task<ActionResult> UpdateCard([FromRoute] int cardId, [FromBody] CardModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				await cardService.UpdateCardAsync(cardId, model);
+				return StatusCode(201);
+			}
 			return BadRequest(400);
 		}
 

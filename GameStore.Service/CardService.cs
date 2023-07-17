@@ -72,9 +72,13 @@ namespace GameStore.Service
 		}
 
 		// task 4.3
-		public Task UpdateCardAsync(int? cardId, CardModel entity)
+		public async Task UpdateCardAsync(int cardId, CardModel model)
 		{
-			throw new NotImplementedException();
+			model.Id = cardId;
+
+			var entity = mapper.Map<Card>(model);
+			await cardRepository.UpdateAsync(entity);
 		}
+
 	}
 }
