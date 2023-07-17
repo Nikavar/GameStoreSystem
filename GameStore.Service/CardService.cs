@@ -28,11 +28,10 @@ namespace GameStore.Service
 			this.mapper = mapper;
         }
 
-
-        // task 4.1
-        public async Task<Card> AddCardAsync(int? gameId, CardModel model)
+		// task 4.1
+		public async Task<Card> AddCardAsync(int? gameId, CardModel model)
 		{
-			model.GameId = gameId;			
+			model.GameId = gameId;
 			decimal gamePrice = 0;
 
 			var game = await gameRepository.GetByIdAsync(gameId);
@@ -50,14 +49,9 @@ namespace GameStore.Service
 			var result = await GetManyCardsAsync(x => x.OrderId == model.OrderId && x.GameId == model.GameId);
 			var order = result.FirstOrDefault();
 
-			if (order != null)
-			{
-				order.OrderCount++;
-				order.TotalAmount += gamePrice;
-				return await cardRepository.AddAsync(order);
-			}
-
-			throw new NotImplementedException();
+			order.OrderCount++;
+			order.TotalAmount = order.OrderCount * gamePrice;
+			return await cardRepository.AddAsync(order);
 		}
 
 		// task 4.2
