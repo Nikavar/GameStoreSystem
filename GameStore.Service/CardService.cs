@@ -31,10 +31,20 @@ namespace GameStore.Service
         public async Task<Card> AddCardAsync(CardModel model)
 		{
 			var entity = mapper.Map<Card>(model);
-			entity.OrderCount++;
 
-			return await cardRepository.AddAsync(entity);
+			var result = await GetManyCardsAsync(x => x.OrderId == model.OrderId && x.GameId == model.GameId);
+			var order = result.FirstOrDefault();
+
+
+			if (order != null)
+				 order.OrderCount++;
+
+			return await cardRepository.AddAsync(order);
 		}
-		
+
+		public async Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter)
+		{
+			return await cardRepository.GetManyAsync(filter);
+		}
 	}
 }

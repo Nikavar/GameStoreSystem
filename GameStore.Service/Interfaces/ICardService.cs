@@ -11,8 +11,8 @@ namespace GameStore.Service.Interfaces
 {
     public interface ICardService
 	{
-
-        Task<Card> AddCardAsync(CardModel entity);
+		Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter);
+		Task<Card> AddCardAsync(CardModel entity);
 
     }
 }
