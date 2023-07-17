@@ -52,6 +52,8 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICardService, CardService>();
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

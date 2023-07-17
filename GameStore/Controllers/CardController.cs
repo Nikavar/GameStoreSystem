@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/")]
 	[ApiController]
 	public class CardController : ControllerBase
 	{
@@ -41,8 +41,8 @@ namespace GameStore.Controllers
 
 
 		// task 4.2
-		[HttpGet]
-		public async Task<ActionResult> GetAllOrders()
+		[HttpGet("Cards")]
+		public async Task<ActionResult> GetAllCards()
 		{
 			var result = await cardService.GetAllCardsAsync();
 

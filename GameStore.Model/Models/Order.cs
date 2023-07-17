@@ -12,7 +12,11 @@ namespace GameStore.Model.Models
         [Key]
         public int Id { get; set; }
         public int AccountId { get; set; }
+
+        [Required]
         public string? PaymentType { get; set; }
+
+        [MaxLength(length:600)]
         public string? Comments { get; set; }       
         
         // relations
