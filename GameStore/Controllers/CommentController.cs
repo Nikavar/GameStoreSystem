@@ -13,14 +13,10 @@ namespace GameStore.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentService commentService;
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
 
-        public CommentController(ICommentService commentService, IMapper mapper, IUnitOfWork unitOfWork)
+        public CommentController(ICommentService commentService)
         {
             this.commentService = commentService;
-            this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
         }
 
         // task 3.1

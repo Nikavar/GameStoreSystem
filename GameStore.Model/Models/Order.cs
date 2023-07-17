@@ -17,6 +17,6 @@ namespace GameStore.Model.Models
         
         // relations
         public Account? Account { get; set; }
-        //public PaymentType? PaymentType { get; set; }
+        public ICollection<Card>? Cards { get; set; }
     }
 }

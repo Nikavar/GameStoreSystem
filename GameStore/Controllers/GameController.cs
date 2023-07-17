@@ -15,18 +15,10 @@ namespace GameStore.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService gameService;
-        private readonly IGenreService genreService;
-        private readonly IGameGenreService gameGenreService;
-        private readonly IMapper mapper;
 
-        public GameController(IGameService gameService, IGenreService genreService,
-                              IGameGenreService gameGenreService,
-                              IMapper mapper)
+        public GameController(IGameService gameService)
         {
             this.gameService = gameService;
-            this.genreService = genreService;
-            this.gameGenreService = gameGenreService;
-            this.mapper = mapper;
         }
 
         [HttpGet]
