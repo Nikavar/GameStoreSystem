@@ -30,15 +30,31 @@ namespace GameStore.Service
 		public async Task<Card> AddCardAsync(int? gameId, CardModel model)
 		{
 			model.GameId = gameId;
+			decimal gamePrice = 0;
+
+			var game = await gameRepository.GetByIdAsync(gameId);
+			if (game != null)
+			{
+				gamePrice = game.Price;
+			}
+
+			else
+			{
+				throw new Exception($"this Game is not in Store");
+			}
 
 			var entity = mapper.Map<Card>(model);
 			var result = await GetManyCardsAsync(x => x.OrderId == model.OrderId && x.GameId == model.GameId);
 			var order = result.FirstOrDefault();
 
 			if (order != null)
+			{
 				order.OrderCount++;
+				order.TotalAmount += gamePrice;
+				return await cardRepository.AddAsync(order);
+			}
 
-			return await cardRepository.AddAsync(order);
+			throw new NotImplementedException();
 		}
 
 		public async Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter)
