@@ -18,8 +18,8 @@ namespace GameStore.Service.Models
         [MaxLength(length:600)]
         public string? CommentContent { get; set; }
         public string? User { get; set; }
-        public DateTime PostedTime { get; set; }
-        public bool IsDeleted { get; set; }
+        public DateTime PostedTime { get; set; } = DateTime.Now;
+        public bool IsDeleted { get; set; } = false;
         public ICollection<CommentModel>? Replies { get; set; }
     }
 }

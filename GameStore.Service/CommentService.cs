@@ -50,11 +50,10 @@ namespace GameStore.Service
         }
 
         // task 3.2
-        public async Task<CommentModel> PostCommentToGameAsync(CommentModel model)
+        public async Task<CommentModel> AddCommentAsync(CommentModel model)
         {
             var entity = await commentRepository.AddAsync(mapper.Map<Comment>(model));
-            var result = await commentRepository.AddAsync(entity);
-            return mapper.Map<CommentModel>(result);
+            return mapper.Map<CommentModel>(entity);
         }
     }
 }
