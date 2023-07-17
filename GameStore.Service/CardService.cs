@@ -28,13 +28,13 @@ namespace GameStore.Service
 
 
         // task 4.1
-        public async Task<Card> AddCardAsync(CardModel model)
+        public async Task<Card> AddCardAsync(int? gameId, CardModel model)
 		{
-			var entity = mapper.Map<Card>(model);
+			model.GameId = gameId;
 
+			var entity = mapper.Map<Card>(model);
 			var result = await GetManyCardsAsync(x => x.OrderId == model.OrderId && x.GameId == model.GameId);
 			var order = result.FirstOrDefault();
-
 
 			if (order != null)
 				 order.OrderCount++;

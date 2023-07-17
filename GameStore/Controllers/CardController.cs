@@ -20,12 +20,12 @@ namespace GameStore.Controllers
 
 		// task 4.1
 
-        [HttpPost]
-		public async Task<ActionResult> AddGameToCard([FromBody] CardModel model)
+        [HttpPost("Game/{gameId}/AddCard")]
+		public async Task<ActionResult> AddGameToCard([FromQuery] int? gameId, [FromBody] CardModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var result = await cardService.AddCardAsync(model);
+				var result = await cardService.AddCardAsync(gameId, model);
 				return StatusCode(201, result);
 			}
 			return BadRequest(400);

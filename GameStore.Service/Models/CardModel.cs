@@ -11,8 +11,8 @@ namespace GameStore.Service.Models
 	{
 		[Key]
 		public int Id { get; set; }
-		public int OrderId { get; set; }
-		public int GameId { get; set; }
+		public int? OrderId { get; set; }
+		public int? GameId { get; set; }
 		public int OrderCount { get; set; } = 0;
 	}
 }
