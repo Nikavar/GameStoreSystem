@@ -26,18 +26,17 @@ namespace GameStore.Service
 			this.mapper = mapper;
         }
 
-
-        // task 4.1
-        public async Task<Card> AddCardAsync(int? gameId, CardModel model)
+		// task 4.1
+		public async Task<Card> AddCardAsync(int? gameId, CardModel model)
 		{
-			var entity = mapper.Map<Card>(model);
+			model.GameId = gameId;
 
+			var entity = mapper.Map<Card>(model);
 			var result = await GetManyCardsAsync(x => x.OrderId == model.OrderId && x.GameId == model.GameId);
 			var order = result.FirstOrDefault();
 
-
 			if (order != null)
-				 order.OrderCount++;
+				order.OrderCount++;
 
 			return await cardRepository.AddAsync(order);
 		}
