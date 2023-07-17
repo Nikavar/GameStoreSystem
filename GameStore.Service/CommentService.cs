@@ -63,5 +63,6 @@ namespace GameStore.Service
             var entity = mapper.Map<Comment>(model);
             await commentRepository.UpdateAsync(entity);
         }
-    }
+       
+	}
 }
