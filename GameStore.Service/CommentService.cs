@@ -63,6 +63,17 @@ namespace GameStore.Service
             var entity = mapper.Map<Comment>(model);
             await commentRepository.UpdateAsync(entity);
         }
-       
+
+		// task 3.4
+		public async Task DeleteCommentAsync(int? gameId, int? commentId)
+		{
+			var commentsToDelete = await commentRepository.GetManyAsync(x => x.GameId == gameId && x.Id == commentId);
+
+			foreach (var comment in commentsToDelete)
+			{
+				comment.IsDeleted = true;
+				await commentRepository.UpdateAsync(comment);
+			}
+		}
 	}
 }

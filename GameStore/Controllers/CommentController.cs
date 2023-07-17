@@ -48,7 +48,16 @@ namespace GameStore.Controllers
             model.Id = commentId;
 			await commentService.UpdateCommentAsync(model);
 			return Ok();
-		}     
-	}
+		}
+
+        // task 3.4
+        [HttpDelete("Game/{gameId}/Delete/{commentId}")]
+        public async Task<ActionResult> DeleteComment([FromRoute] int? gameId, [FromRoute] int? commentId)
+        {
+          await commentService.DeleteCommentAsync(gameId, commentId);
+          return Ok();
+        }
+
+		}   
 }
 
