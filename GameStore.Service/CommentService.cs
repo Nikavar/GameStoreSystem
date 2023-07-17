@@ -50,11 +50,10 @@ namespace GameStore.Service
         }
 
         // task 3.2
-        public async Task<CommentModel> PostCommentToGameAsync(CommentModel model)
+        public async Task<CommentModel> AddCommentAsync(CommentModel model)
         {
             var entity = await commentRepository.AddAsync(mapper.Map<Comment>(model));
-            var result = await commentRepository.AddAsync(entity);
-            return mapper.Map<CommentModel>(result);
+            return mapper.Map<CommentModel>(entity);
         }
 
 
@@ -65,12 +64,18 @@ namespace GameStore.Service
             await commentRepository.UpdateAsync(entity);
         }
 
-        // task 3.4
-        public async Task DeleteComment(int? id)
-        {
-            var entity = await commentRepository.GetByIdAsync(id);
-            entity.IsDeleted = true;
+		// task 3.4
+		public async Task DeleteCommentAsync(int? gameId, int? commentId)
+		{
+			var commentsToDelete = await commentRepository.GetManyAsync(x => x.GameId == gameId && x.Id == commentId);
 
+			foreach (var comment in commentsToDelete)
+			{
+				comment.IsDeleted = true;
+				await commentRepository.UpdateAsync(comment);
+			}
+		}
+	}
             await commentRepository.UpdateAsync(entity);
         }
 

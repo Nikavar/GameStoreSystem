@@ -1,10 +1,11 @@
 ﻿using GameStore.Model.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace GameStore.Statics
+namespace GameStore.Service.Models
 {
     public static class Helper
     {
@@ -24,7 +25,7 @@ namespace GameStore.Statics
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: credentials
                 );
-
+        
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

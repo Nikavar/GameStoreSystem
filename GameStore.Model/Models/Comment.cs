@@ -16,7 +16,7 @@ namespace GameStore.Model.Models
         [MaxLength(length:600)]
         public string? CommentContent { get; set; }
         public string? User { get; set; }
-        public DateTime PostedTime { get; set; }
+        public DateTime PostedTime { get; set; } = DateTime.Now;
         public int? GameId { get; set; }
         public int? ReplyId { get; set; }
 
@@ -25,7 +25,7 @@ namespace GameStore.Model.Models
 
         [ForeignKey("ReplyId")]
         public Comment? Reply { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public ICollection<Comment>? Replies { get; set;}
 
     }
