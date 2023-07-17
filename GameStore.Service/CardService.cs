@@ -42,6 +42,12 @@ namespace GameStore.Service
 			return await cardRepository.AddAsync(order);
 		}
 
+		// task 4.2
+		public async Task<IEnumerable<Card>> GetAllCardsAsync()
+		{
+			return await cardRepository.GetAllAsync();
+		}
+
 		public async Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter)
 		{
 			return await cardRepository.GetManyAsync(filter);

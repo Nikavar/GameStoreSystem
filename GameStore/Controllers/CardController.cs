@@ -18,6 +18,7 @@ namespace GameStore.Controllers
 			this.cardService = cardService;
         }
 
+		// task 4.1
 
         [HttpPost]
 		public async Task<ActionResult> AddGameToCard([FromBody] CardModel model)
@@ -27,6 +28,19 @@ namespace GameStore.Controllers
 				var result = await cardService.AddCardAsync(model);
 				return StatusCode(201, result);
 			}
+			return BadRequest(400);
+		}
+
+
+		// task 4.2
+		[HttpGet]
+		public async Task<ActionResult> GetAllOrders()
+		{
+			var result = await cardService.GetAllCardsAsync();
+
+			if (result != null)
+				return StatusCode(201, result);
+
 			return BadRequest(400);
 		}
 
