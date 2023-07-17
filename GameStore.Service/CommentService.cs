@@ -63,5 +63,14 @@ namespace GameStore.Service
             var entity = mapper.Map<Comment>(model);
             await commentRepository.UpdateAsync(entity);
         }
+
+        // task 3.4
+        public async Task DeleteComment(int? id)
+        {
+            var entity = await commentRepository.GetByIdAsync(id);
+            entity.IsDeleted = true;
+
+            await commentRepository.UpdateAsync(entity);
+        }
     }
 }
