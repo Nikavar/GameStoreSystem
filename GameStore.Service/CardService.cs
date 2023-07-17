@@ -49,14 +49,9 @@ namespace GameStore.Service
 			var result = await GetManyCardsAsync(x => x.OrderId == model.OrderId && x.GameId == model.GameId);
 			var order = result.FirstOrDefault();
 
-			if (order != null)
-			{
-				order.OrderCount++;
-				order.TotalAmount += gamePrice;
-				return await cardRepository.AddAsync(order);
-			}
-
-			throw new NotImplementedException();
+			order.OrderCount++;
+			order.TotalAmount = order.OrderCount * gamePrice;
+			return await cardRepository.AddAsync(order);
 		}
 
 		public async Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter)
