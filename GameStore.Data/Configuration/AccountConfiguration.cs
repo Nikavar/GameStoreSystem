@@ -13,8 +13,7 @@ namespace GameStore.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
-
-            builder.ToTable("Accounts");
+             builder.ToTable("Accounts");
 
             builder.HasKey(acc => acc.Id);
 
@@ -38,7 +37,6 @@ namespace GameStore.Data.Configuration
 
             builder.HasMany(o => o.AccountRoles)
                 .WithOne(acc => acc.Account);
-
         }       
     }
 }
