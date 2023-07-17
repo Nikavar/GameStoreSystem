@@ -14,9 +14,11 @@ namespace GameStore.Model.Models
         public int OrderId { get; set; }
         public int GameId { get; set; }
         public int OrderCount { get; set; } = 0;
+		public decimal TotalAmount { get; set; } = 0;
 
-        // relations
-        public Order? Order { get; set; }
+
+		// relations
+		public Order? Order { get; set; }
         public Game? Game { get; set; }
 
     }

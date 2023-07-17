@@ -16,15 +16,17 @@ namespace GameStore.Service
 	public class CardService : ICardService
 	{
 		private readonly ICardRepository cardRepository;
+		private readonly IGameRepository gameRepository;
 		private readonly IUnitOfWork unitOfWork;
 		private readonly IMapper mapper;
 
-		public CardService(ICardRepository cardRepository, IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            this.cardRepository = cardRepository;
+		public CardService(ICardRepository cardRepository, IGameRepository gameRepository, IUnitOfWork unitOfWork, IMapper mapper)
+		{
+			this.gameRepository = gameRepository;
+			this.cardRepository = cardRepository;
 			this.unitOfWork = unitOfWork;
 			this.mapper = mapper;
-        }
+		}
 
 		// task 4.1
 		public async Task<Card> AddCardAsync(int? gameId, CardModel model)
