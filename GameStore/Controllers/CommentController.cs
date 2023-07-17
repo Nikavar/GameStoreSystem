@@ -35,17 +35,10 @@ namespace GameStore.Controllers
         [HttpPost("Game/{gameId}/AddComment")]
         public async Task<ActionResult> AddCommentToGameAsync([FromRoute] int gameId, CommentModel model)
         {
-            model.Id = gameId;
+            model.GameId = gameId;
             var result = await commentService.AddCommentAsync(model);
             return Ok(result);
         }
 
-		// task 3.3
-		[HttpPut("Game/{gameId}/UpdateComment")]
-		public async Task<ActionResult> UpdateCommentAsync([FromRoute] CommentModel model)
-		{
-			await commentService.UpdateCommentAsync(model);
-			return Ok();
-		}
 	}
 }
