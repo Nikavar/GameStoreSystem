@@ -166,15 +166,5 @@ namespace GameStore.Controllers
             }
             return BadRequest();
         }
-
-        // task 3.3
-        [HttpPut("UpdateComment")]
-        public async Task<ActionResult> UpdateCommentAsync([FromBody] CommentModel model)
-        {
-            await commentService.UpdateCommentAsync(model);
-            return Ok();
-        }
-
-
     }
 }
