@@ -12,5 +12,6 @@ namespace GameStore.Service.Interfaces
     {
         Task<IEnumerable<CommentModel>> GetCommentsByGameIdAsync(int? id);
         Task<CommentModel> AddCommentAsync(CommentModel model);
+        Task UpdateCommentAsync(CommentModel model);
     }
 }
