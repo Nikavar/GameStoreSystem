@@ -15,5 +15,6 @@ namespace GameStore.Service.Interfaces
 		Task<Order> GetCurrentOrderAsync(int? accountId);
 		Task<Order> CreateOrderAsync(Order model);
 		Task<IEnumerable<Order>> GetAllOrdersAsync();
+		Task<Order> UpdateOrderAsync(int? gameId, int? orderId, int accountId);
     }
 }

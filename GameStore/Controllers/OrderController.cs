@@ -56,7 +56,19 @@ namespace GameStore.Controllers
 				return StatusCode(201, order);
 
 			return BadRequest("Card is Empty");
-
 		}
+
+		// task 4.3
+
+		[HttpPut("Game/{gameId}/UpdateOrder")]
+		public async Task<ActionResult> UpdateOrder([FromRoute] int? gameId, [FromQuery] int? orderId)
+		{
+			var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+			int accountId = Convert.ToInt32(userId);
+			var result = await orderService.UpdateOrderAsync(gameId, orderId,accountId);
+
+			return Ok(result);
+		}
+
 	}
 }
