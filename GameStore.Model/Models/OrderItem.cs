@@ -14,7 +14,7 @@ namespace GameStore.Model.Models
         public int OrderId { get; set; }
         public int GameId { get; set; }
         public int ItemCount { get; set; } = 0;
-        public decimal itemTotalPrice => ItemCount * Game?.Price ?? 0;
+        public decimal GamePrice { get; set; }
 
 
 		// relations

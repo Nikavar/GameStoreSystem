@@ -13,6 +13,6 @@ namespace GameStore.Service.Interfaces
 	{
 		Task<Order> AddToCardAsync(int? gameId, int? orderId, int accountId);
 		Task<Order> GetCurrentOrderAsync(int? accountId);
-		Task<Order> CreateOrderAsync(OrderModel model);
+		Task<Order> CreateOrderAsync(Order model);
     }
 }
