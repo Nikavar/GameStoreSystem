@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStore.Model.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace GameStore.Service.Models
 		public string? Phone { get; set; }
 
 		[Required]
-		public string? PaymentType { get; set; }
+		public int? PaymentTypeId { get; set; }
 
 		[MaxLength(length: 600)]
 		public string? Comments { get; set; }

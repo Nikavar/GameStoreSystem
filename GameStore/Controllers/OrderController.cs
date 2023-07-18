@@ -21,11 +21,11 @@ namespace GameStore.Controllers
 		// task 4.5
 
         [HttpPost("Account/{accountId}/AddOrder")]
-		public async Task<ActionResult> AddOrder([FromQuery] int? orderId, [FromBody] OrderModel model)
+		public async Task<ActionResult> AddOrder([FromRoute] int? accountId, [FromBody] OrderModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var result = await orderService.AddOrderAsync(orderId, model);
+				var result = await orderService.AddOrderAsync(accountId, model);
 					return StatusCode(201, result);
 			}
 

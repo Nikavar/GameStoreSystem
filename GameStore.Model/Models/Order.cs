@@ -14,13 +14,14 @@ namespace GameStore.Model.Models
         public int AccountId { get; set; }
 
         [Required]
-        public string? PaymentType { get; set; }
+        public int PaymentTypeId { get; set; }
 
         [MaxLength(length:600)]
         public string? Comments { get; set; }       
         
         // relations
         public Account? Account { get; set; }
+        public PaymentType? PaymentType { get; set; }   
         public ICollection<Card>? Cards { get; set; }
     }
 }

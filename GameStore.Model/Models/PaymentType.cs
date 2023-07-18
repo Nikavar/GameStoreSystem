@@ -12,6 +12,8 @@ namespace GameStore.Model.Models
         [Key]
         public int Id { get; set; }
         public string? PaymentName { get; set; }
-        public ICollection<Order> Orders { get; set; }
+
+        // relations
+        public ICollection<Order>? Orders { get; set; }
     }
 }
