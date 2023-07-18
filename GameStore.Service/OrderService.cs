@@ -42,7 +42,9 @@ namespace GameStore.Service
 			model.AccountId = accountId;
 
 			var order = await orderRepository.AddAsync(mapper.Map<Order>(model));
+
 			return order;
+
 		}
 	}
 }
