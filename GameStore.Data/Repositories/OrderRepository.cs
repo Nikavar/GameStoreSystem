@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace GameStore.Data.Repositories
 {
-	public class CardRepository : BaseRepository<Card>, ICardRepository
+	public class OrderRepository : BaseRepository<Order>, IOrderRepository
 	{
-		public CardRepository(IDbFactory dbFactory) : base(dbFactory)
+		public OrderRepository(IDbFactory dbFactory) : base(dbFactory)
 		{
 
 		}
 	}
 
-	public interface ICardRepository : IBaseRepository<Card>
+	public interface IOrderRepository : IBaseRepository<Order>
 	{
 
 	}

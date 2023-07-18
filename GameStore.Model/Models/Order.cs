@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace GameStore.Model.Models
 {
     public class Order
@@ -12,11 +13,13 @@ namespace GameStore.Model.Models
         [Key]
         public int Id { get; set; }
         public int AccountId { get; set; }
-        public string? PaymentType { get; set; }
-        public string? Comments { get; set; }       
-        
+		public DateTime DateCompleted { get; set; }
+        public decimal TotalPrice => OrderItems?.Sum(x=>x.itemTotalPrice) ?? 0;
+
         // relations
         public Account? Account { get; set; }
-        public ICollection<Card>? Cards { get; set; }
-    }
+        public ICollection<OrderItem>? OrderItems { get; set; }
+
+
+	}
 }

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace GameStore.Data.Configuration
 {
-    public class CardConfiguration : IEntityTypeConfiguration<Card>
+    public class CardConfiguration : IEntityTypeConfiguration<OrderItem>
     {
-        public void Configure(EntityTypeBuilder<Card> builder)
+        public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
             builder.ToTable("Cards");
 
@@ -20,10 +20,10 @@ namespace GameStore.Data.Configuration
             // relations
 
             builder.HasOne(x => x.Order)
-                .WithMany(y => y.Cards);
+                .WithMany(y => y.OrderItems);
 
             builder.HasOne(x => x.Game)
-                .WithMany(y => y.Cards);            
+                .WithMany(y => y.GameOrderItems);            
         }
     }
 }

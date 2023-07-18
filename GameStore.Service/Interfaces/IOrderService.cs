@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace GameStore.Service.Interfaces
 {
-    public interface ICardService
+    public interface IOrderService
 	{
-		Task<IEnumerable<Card>> GetManyCardsAsync(Expression<Func<Card, bool>> filter);
-		Task<Card> AddCardAsync(int? gameId, CardModel entity);
-
+		Task<Order> AddToCardAsync(int? gameId, int? orderId, int accountId);
+		Task<Order> GetCurrentOrderAsync(int? accountId);
+		Task<Order> CreateOrderAsync(OrderModel model);
     }
 }

@@ -28,6 +28,6 @@ namespace GameStore.Model.Models
 
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<GameGenre>? GameGenres { get; set; }
-        public ICollection<Card>? Cards { get; set; }
+        public ICollection<OrderItem>? GameOrderItems { get; set; }
     }
 }

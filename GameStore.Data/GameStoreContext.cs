@@ -28,11 +28,10 @@ namespace GameStore.Data
         public DbSet<GameGenre>? GameGenres { get; set; }
         public DbSet<Genre>? Genres { get; set; }
         public DbSet<Order>? Orders { get; set; }
-        public DbSet<Card>? OrderGames { get; set; }
-        public DbSet<PaymentType>? PaymentTypes { get; set; }
+        public DbSet<OrderItem>? OrderGames { get; set; }
         public DbSet<Role>? Roles { get; set; }
         public DbSet<RoleAccount>? AccountRoles { get; set; }
-        public DbSet<Card>? Cards { get; set; }
+        public DbSet<OrderItem>? Cards { get; set; }
 
         public virtual void Commit()
         {

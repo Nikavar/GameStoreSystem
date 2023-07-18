@@ -20,9 +20,6 @@ namespace GameStore.Data.Configuration
             builder.Property(o => o.AccountId)
                 .HasColumnName("AccountId");
 
-            builder.Property(o => o.Comments)
-                .HasMaxLength(600)
-                .IsUnicode(true);
 
             // relations
             builder.HasOne(o => o.Account)

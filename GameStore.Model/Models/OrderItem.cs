@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace GameStore.Model.Models
 {
-    public class Card
+    public class OrderItem
     {
         [Key]
         public int Id { get; set; }
         public int OrderId { get; set; }
         public int GameId { get; set; }
-        public int OrderCount { get; set; } = 0;
-		public decimal TotalAmount { get; set; } = 0;
+        public int ItemCount { get; set; } = 0;
+        public decimal itemTotalPrice => ItemCount * Game?.Price ?? 0;
 
 
 		// relations
