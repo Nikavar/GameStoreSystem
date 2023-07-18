@@ -40,8 +40,23 @@ namespace GameStore.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
-
 		}
 
+		// task 4.2
+
+		[HttpPost("Game/{gameId}/MyCard")]
+		public async Task<ActionResult> GetCardItems()
+		{
+			var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+			int accountId = Convert.ToInt32(userId);
+
+			var order = await orderService.GetCurrentOrderAsync(accountId);
+
+			if (order != null)
+				return StatusCode(201, order);
+
+			return BadRequest("Card is Empty");
+
+		}
 	}
 }

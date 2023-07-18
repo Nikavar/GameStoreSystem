@@ -70,6 +70,7 @@ namespace GameStore.Service
 			return await orderRepository.AddAsync(order);
 		}
 
+		// task 4.2
 		public async Task<Order> GetCurrentOrderAsync(int? accountId)
 		{
 			var order = await orderRepository.GetManyAsync(x => x.AccountId == accountId && x.DateCompleted == null);
@@ -90,6 +91,5 @@ namespace GameStore.Service
 		{
 			await orderRepository.UpdateAsync(mapper.Map<Order>(model));	
 		}
-
 	}
 }
