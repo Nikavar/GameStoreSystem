@@ -43,7 +43,12 @@ namespace GameStore.Service
 
 			var order = await orderRepository.AddAsync(mapper.Map<Order>(model));
 
-			return order;
+			if (order != null)
+			{
+				return order;
+			}
+
+			throw new Exception("Your order did not Confirmed!");
 
 		}
 	}

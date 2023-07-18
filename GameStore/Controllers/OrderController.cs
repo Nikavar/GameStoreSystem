@@ -25,8 +25,16 @@ namespace GameStore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var result = await orderService.AddOrderAsync(accountId, model);
+				try
+				{
+					var result = await orderService.AddOrderAsync(accountId, model);
 					return StatusCode(201, result);
+				}
+
+				catch (Exception ex)
+				{
+					return BadRequest(ex.Message);
+				}				
 			}
 
 			return BadRequest(400);
