@@ -14,6 +14,8 @@ namespace GameStore.Service.Interfaces
 		Task<Order> AddToCardAsync(int? gameId, int? orderId, int accountId);
 		Task<Order> GetCurrentOrderAsync(int? accountId);
 		Task<Order> CreateOrderAsync(Order model);
-		Task<IEnumerable<Order>> GetAllOrdersAsync();
-    }
+		Task<Order> UpdateOrderAsync(int? gameId, int? orderId, int accountId, SignEnum sign);
+		Task<Order> RemoveGameFromCardAsync(int? gameId, int? accountId);
+		Task RemoveAllGamesFromCardAsync(int? gameId, int? accountId);
+	}
 }

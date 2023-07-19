@@ -42,7 +42,7 @@ namespace GameStore.Service
 			var currentOrder = await GetCurrentOrderAsync(accountId);
 			var orderItem = currentOrder?.OrderItems?.FirstOrDefault(x => x.GameId == gameId);
 
-			if (orderItem == null)
+			if(orderItem == null)
 			{
 				OrderItem newOrderItem = new OrderItem();
 				newOrderItem.OrderId = orderId;
@@ -52,8 +52,7 @@ namespace GameStore.Service
 
 				await orderItemRepository.AddAsync(newOrderItem);
 			}
-
-			else
+   		else
 			{
 				orderItem.ItemCount++;
 				await orderItemRepository.UpdateAsync(orderItem);
@@ -84,9 +83,63 @@ namespace GameStore.Service
 
 			return currOrder;
 		}
+
 		public async Task UpdateOrderAsync(OrderModel model)
 		{
 			await orderRepository.UpdateAsync(mapper.Map<Order>(model));	
+		}
+
+
+		// case: SignEnum.Minus
+		public async Task<Order> RemoveGameFromCardAsync(int? gameId, int? accountId)
+		{
+			var currentOrder = await GetCurrentOrderAsync(accountId);
+			var orderItem = currentOrder?.OrderItems?.FirstOrDefault(x => x.GameId == gameId);
+
+			if (orderItem?.ItemCount == 1)
+			{
+				await orderItemRepository.DeleteAsync(orderItem);
+			}
+
+			else
+			{
+				orderItem.ItemCount--;
+				await orderItemRepository.UpdateAsync(orderItem);
+			}
+
+			return await GetCurrentOrderAsync(accountId);
+		}
+
+		// case: SignEnum.Close
+		public async Task RemoveAllGamesFromCardAsync(int? gameId, int? accountId)
+		{
+			var currentOrder = await GetCurrentOrderAsync(accountId);
+			var orderItem = currentOrder?.OrderItems?.FirstOrDefault(x => x.GameId == gameId);
+
+			if(orderItem != null)
+				await orderItemRepository.DeleteAsync(orderItem);
+		}
+
+		// task 4.3
+		public async Task<Order> UpdateOrderAsync(int? gameId, int? orderId, int accountId, SignEnum sign)
+		{
+
+				switch (sign)
+				{
+					case SignEnum.minus:
+						await RemoveGameFromCardAsync(gameId, accountId);
+						break;					
+
+					case SignEnum.plus:
+						await AddToCardAsync(gameId, orderId, accountId);
+						break;
+
+					case SignEnum.close:
+						await RemoveAllGamesFromCardAsync(gameId, accountId);
+						break;
+				}
+
+			return await GetCurrentOrderAsync(accountId);
 		}
 	}
 }

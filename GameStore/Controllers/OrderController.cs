@@ -5,6 +5,7 @@ using GameStore.Service.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using GameStore.Model.Models;
 
 namespace GameStore.Controllers
 {
@@ -58,5 +59,19 @@ namespace GameStore.Controllers
 			return BadRequest("Something went wrong");
 
 		}
+
+		// task 4.3
+
+		[HttpPut("Game/{gameId}/UpdateOrder/{sign}")]
+		public async Task<ActionResult> UpdateOrder([FromRoute] int? gameId, [FromQuery] int? orderId, [FromRoute] SignEnum sign)
+		{
+			var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+			int accountId = Convert.ToInt32(userId);
+
+			var result = await orderService.UpdateOrderAsync(gameId, orderId, accountId, sign);
+
+			return Ok(result);
+		}
+
 	}
 }
