@@ -7,6 +7,7 @@ using GameStore.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -87,5 +88,14 @@ namespace GameStore.Service
 				await commentRepository.UpdateAsync(comment);
 			}
 		}
-	}
+	
+
+        // task3.6
+        public async Task ReplyOnCommentAsync(int? id, int? commentId, CommentModel model)
+        {
+            var comment = await commentRepository.GetByIdAsync(commentId);
+
+			comment?.Replies?.Add(mapper.Map<Comment>(model));
+        }
+    }
 }

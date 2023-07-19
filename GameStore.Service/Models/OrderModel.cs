@@ -5,20 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace GameStore.Model.Models
+namespace GameStore.Service.Models
 {
-    public class Order
-    {
-        [Key]
+	public class OrderModel
+	{
+		[Key]
         public int Id { get; set; }
-        public int? AccountId { get; set; }
+		public int? AccountId { get; set; }
+		public List<OrderItemModel>? OrderItems { get; set; }
 		public DateTime? DateCompleted { get; set; }
-
-        // relations
-        public Account? Account { get; set; }
-        public ICollection<OrderItem>? OrderItems { get; set; }
-
-
+		public decimal TotalAmount => OrderItems?.Sum(x => x.itemTotalAmount) ?? 0;
 	}
 }

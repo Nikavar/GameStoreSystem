@@ -13,14 +13,10 @@ namespace GameStore.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentService commentService;
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
 
-        public CommentController(ICommentService commentService, IMapper mapper, IUnitOfWork unitOfWork)
+        public CommentController(ICommentService commentService)
         {
             this.commentService = commentService;
-            this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
         }
 
         // task 3.1
@@ -65,5 +61,13 @@ namespace GameStore.Controllers
           await commentService.RestoreCommentAsync(gameId, commentId);
           return Ok();
         }
-    }
+
+		// task 3.6
+		[HttpPut("Game/{gameId}/ReplyOn/{commentId}")]
+		public async Task<ActionResult> ReplyOnComment([FromRoute] int? gameId, [FromRoute] int? commentId, [FromBody] CommentModel model)
+		{
+			await commentService.ReplyOnCommentAsync(gameId, commentId, model);
+			return Ok();
+		}
+	}
 }

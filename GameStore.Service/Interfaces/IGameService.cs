@@ -20,5 +20,6 @@ namespace GameStore.Service.Interfaces
         Task DeleteManyGamesAsync(Expression<Func<Game, bool>> filter);
         bool IsGameModelValidate(GameModel model);
         Task AddImageToGame(GameModel model);
+        Task<IEnumerable<GameModel>> GetByGenreAndName(int? genreId, string? gameName);
     }
 }

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace GameStore.Service
 {
@@ -20,19 +21,23 @@ namespace GameStore.Service
         private readonly IGameRepository gameRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IGenreService genreService;
+        private readonly IGameGenreService gameGenreService;
 
         public GameService(IGameRepository gameRepo, IGameGenreRepository gameGenreRepo, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.gameGenreRepository = gameGenreRepo;
             this.gameRepository = gameRepo;
             this.unitOfWork = unitOfWork;
+
+            this.genreService = genreService;
+            this.gameGenreService = gameGenreService;
             this.mapper = mapper;
         }
 
         public async Task<IEnumerable<Game>> GetAllGamesAsync()
         {
             return await gameRepository.GetAllAsync();
-            //return mapper.Map<IEnumerable<GameModel>>(entity);
         }
 
         public async Task<IEnumerable<GameModel>> GetManyGamesAsync(Expression<Func<Game, bool>> filter)
@@ -116,6 +121,57 @@ namespace GameStore.Service
         {
             await gameRepository.UpdateAsync(mapper.Map<Game>(model));
         }
-    }
 
+        public async Task<IEnumerable<GameModel>> GetByGenreAndName(int? genreId, string? gameName)
+        {
+            var genreList = await genreService.GetAllGenresAsync();
+            var gameList = await GetAllGamesAsync();
+            var gameGenreList = await gameGenreService.GetAllGameGenresAsync();
+
+            IEnumerable<Game> result = new List<Game>();
+
+            // To_Do put in GameService!!!
+            if (gameList != null && genreList != null && gameGenreList != null)
+            {
+                if (genreId != null && !string.IsNullOrEmpty(gameName))
+                {
+                    var getByNameAndGenreId = (from game in gameList
+                                               join gameGenre in gameGenreList
+                                               on game.Id equals gameGenre.GameId
+                                               join genre in genreList
+                                               on gameGenre.GenreId equals genre.Id
+                                               where genre.Id == genreId && game.GameName?.ToLower() == gameName.ToLower()
+                                               select game
+                          );
+
+                    result = getByNameAndGenreId;
+                }
+
+
+                else if (genreId == null && !string.IsNullOrEmpty(gameName))
+                {
+                    result = (from game in gameList
+                              where game.GameName?.ToLower() == gameName.ToLower()
+                              select game);
+                }
+
+                else if (genreId != null && string.IsNullOrEmpty(gameName))
+                {
+                    var getByGenreId = (from game in gameList
+                                        join gameGenre in gameGenreList
+                                        on game.Id equals gameGenre.GameId
+                                        join genre in genreList
+                                        on gameGenre.GenreId equals genre.Id
+                                        where genre.Id == genreId
+                                        select game
+                                       );
+
+                    result = getByGenreId;
+                }
+
+            }
+            
+            return mapper.Map<IEnumerable<GameModel>>(result);
+        }
+    }
 }

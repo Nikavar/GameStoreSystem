@@ -28,10 +28,10 @@ namespace GameStore.Data
         public DbSet<GameGenre>? GameGenres { get; set; }
         public DbSet<Genre>? Genres { get; set; }
         public DbSet<Order>? Orders { get; set; }
-        public DbSet<OrderGame>? OrderGames { get; set; }
-        public DbSet<PaymentType>? PaymentTypes { get; set; }
+        public DbSet<OrderItem>? OrderGames { get; set; }
         public DbSet<Role>? Roles { get; set; }
         public DbSet<RoleAccount>? AccountRoles { get; set; }
+        public DbSet<OrderItem>? Cards { get; set; }
 
         public virtual void Commit()
         {
@@ -139,6 +139,7 @@ namespace GameStore.Data
             modelBuilder.ApplyConfiguration(new GenreConfiguration());
             modelBuilder.ApplyConfiguration(new GameGenreConfiguration());
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
+            modelBuilder.ApplyConfiguration(new CardConfiguration());
         }
     }
 }

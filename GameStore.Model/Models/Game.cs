@@ -26,10 +26,8 @@ namespace GameStore.Model.Models
 
         // relations
 
-        // Comment #2.1
         public ICollection<Comment>? Comments { get; set; }
-
-        // Comment N2.2
         public ICollection<GameGenre>? GameGenres { get; set; }
+        public ICollection<OrderItem>? GameOrderItems { get; set; }
     }
 }
