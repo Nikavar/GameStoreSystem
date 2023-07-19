@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using GameStore.Model.Models;
+using Mapster;
 
 namespace GameStore.Controllers
 {
@@ -14,10 +15,12 @@ namespace GameStore.Controllers
 	public class OrderController : ControllerBase
 	{
 		private readonly IOrderService orderService;
+		private readonly IOrderDetailsService orderDetailsService;
 		private readonly IGameService gameService;
 
-        public OrderController(IOrderService orderService, IGameService gameService)
-        {				
+        public OrderController(IOrderDetailsService orderDetailsService, IOrderService orderService, IGameService gameService)
+        {
+			this.orderDetailsService = orderDetailsService;			
 			this.orderService = orderService;
 			this.gameService = gameService;
         }
@@ -81,6 +84,5 @@ namespace GameStore.Controllers
 			var order = await orderService.GetCurrentOrderAsync(accountId);
 			return Ok(order);
 		}
-
 	}
 }

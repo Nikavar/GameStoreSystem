@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Data.Configuration
 {
-    public class CardConfiguration : IEntityTypeConfiguration<OrderItem>
+    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {

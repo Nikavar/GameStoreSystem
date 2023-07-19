@@ -18,7 +18,9 @@ namespace GameStore.Service.Mapping
             CreateMap<Genre, GenreModel>().ReverseMap();
             CreateMap<Account, AccountModel>().ReverseMap();
             CreateMap<Comment, CommentModel>().ReverseMap();
+            CreateMap<Order, OrderModel>().ReverseMap();
             CreateMap<OrderItem, OrderItemModel>().ReverseMap();
+            CreateMap<OrderDetails, OrderDetailsModel>().ReverseMap();
 
         }
     }

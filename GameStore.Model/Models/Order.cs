@@ -18,7 +18,7 @@ namespace GameStore.Model.Models
         // relations
         public Account? Account { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
-
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
 
 	}
 }
