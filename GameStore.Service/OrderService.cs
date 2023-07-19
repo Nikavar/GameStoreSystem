@@ -38,31 +38,28 @@ namespace GameStore.Service
 			var gameToAdd = await gameRepository.GetByIdAsync(gameId);
 
 			// Finds Current Order
+
 			var currentOrder = await GetCurrentOrderAsync(accountId);
+			var orderItem = currentOrder?.OrderItems?.FirstOrDefault(x => x.GameId == gameId);
 
-			// Creates new OrderItem to Add in Order
-			OrderItemModel orderItem = new OrderItemModel();
-
-			orderItem.OrderId = orderId;
-			orderItem.GameId = gameId;
-			orderItem.ItemCount++;
-			orderItem.GamePrice = gameToAdd.Price;
-
-			var entity = mapper.Map<OrderItem>(orderItem);
-
-			// Checks Order contains New OrderItem or not:
-
-			if(currentOrder.OrderItems.Contains(entity))
+			if(orderItem == null)
 			{
-				await orderItemRepository.UpdateAsync(entity);
+				OrderItem newOrderItem = new OrderItem();
+				newOrderItem.OrderId = orderId;
+				newOrderItem.GameId = gameId;
+				newOrderItem.ItemCount++;
+				newOrderItem.GamePrice = gameToAdd.Price;
+
+				await orderItemRepository.AddAsync(newOrderItem);
 			}
 
-            else
-            {
-				await orderItemRepository.AddAsync(entity);
-            }
+			else 
+			{
+				orderItem.ItemCount++;
+				await orderItemRepository.UpdateAsync(orderItem);
+			}
 
-			return currentOrder;
+			return await GetCurrentOrderAsync(accountId);
 		}
 
 		public async Task<Order> CreateOrderAsync(Order order)
@@ -87,6 +84,7 @@ namespace GameStore.Service
 
 			return currOrder;
 		}
+
 		public async Task UpdateOrderAsync(OrderModel model)
 		{
 			await orderRepository.UpdateAsync(mapper.Map<Order>(model));	
@@ -134,7 +132,6 @@ namespace GameStore.Service
 
 				}
 			}
-
 
 			return currentOrder;
 
