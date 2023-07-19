@@ -31,7 +31,7 @@ namespace GameStore.Service
 		}
 
 
-		// task 4.5
+		// task 4.5, 4.6, 4.7
 		public async Task<bool> CompleteOrder(int? accountId, int? orderId, OrderDetailsModel model)
 		{			
 			var currentOrder = await orderService.GetCurrentOrderAsync(accountId);
