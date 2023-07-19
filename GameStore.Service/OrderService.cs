@@ -90,51 +90,58 @@ namespace GameStore.Service
 			await orderRepository.UpdateAsync(mapper.Map<Order>(model));	
 		}
 
+
+		// case: SignEnum.Minus
+		public async Task<Order> RemoveGameFromCardAsync(int? gameId, int? accountId)
+		{
+			var currentOrder = await GetCurrentOrderAsync(accountId);
+			var orderItem = currentOrder?.OrderItems?.FirstOrDefault(x => x.GameId == gameId);
+
+			if (orderItem?.ItemCount == 1)
+			{
+				await orderItemRepository.DeleteAsync(orderItem);
+			}
+
+			else
+			{
+				orderItem.ItemCount--;
+				await orderItemRepository.UpdateAsync(orderItem);
+			}
+
+			return await GetCurrentOrderAsync(accountId);
+		}
+
+		// case: SignEnum.Close
+		public async Task RemoveAllGamesFromCardAsync(int? gameId, int? accountId)
+		{
+			var currentOrder = await GetCurrentOrderAsync(accountId);
+			var orderItem = currentOrder?.OrderItems?.FirstOrDefault(x => x.GameId == gameId);
+
+			if(orderItem != null)
+				await orderItemRepository.DeleteAsync(orderItem);
+		}
+
 		// task 4.3
 		public async Task<Order> UpdateOrderAsync(int? gameId, int? orderId, int accountId, SignEnum sign)
 		{
-			var currentOrder = await GetCurrentOrderAsync(accountId);
 
-			var currOrderItem  = currentOrder?.OrderItems?.Where(x => x.GameId == gameId && x.OrderId == orderId).FirstOrDefault();
-
-			if(currOrderItem != null)
-			{
 				switch (sign)
 				{
 					case SignEnum.minus:
-						if (currOrderItem.ItemCount == 1)
-						{
-							currentOrder?.OrderItems?.Remove(currOrderItem);
-							await orderItemRepository.DeleteAsync(currOrderItem);
-						}
-					 
-						else
-						{
-							currOrderItem.ItemCount--;
-							await orderItemRepository.UpdateAsync(currOrderItem);
-						}
-						break;
-					
+						await RemoveGameFromCardAsync(gameId, accountId);
+						break;					
 
 					case SignEnum.plus:
-						currentOrder = await AddToCardAsync(gameId, orderId, accountId);
+						await AddToCardAsync(gameId, orderId, accountId);
 						break;
 
 					case SignEnum.close:
-					
-						foreach (var orderitem in currentOrder.OrderItems)
-						{
-							await orderItemRepository.DeleteAsync(orderitem);
-						}
-
-						await orderRepository.DeleteAsync(currentOrder);
+						await RemoveAllGamesFromCardAsync(gameId, accountId);
 						break;
-
 				}
-			}
 
-			return currentOrder;
-
+			return await GetCurrentOrderAsync(accountId);
 		}
+
 	}
 }
