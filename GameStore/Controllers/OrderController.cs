@@ -53,9 +53,10 @@ namespace GameStore.Controllers
 			var order = await orderService.GetCurrentOrderAsync(accountId);
 
 			if (order != null)
-				return StatusCode(201, order);
+				return Ok(order);
 
-			return BadRequest("Card is Empty");
+			return BadRequest("Something went wrong");
+
 		}
 
 		// task 4.3
