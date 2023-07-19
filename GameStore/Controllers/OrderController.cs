@@ -73,5 +73,14 @@ namespace GameStore.Controllers
 			return Ok(result);
 		}
 
+		// task 4.4
+
+		[HttpGet("Game/{gameId}/MyCard/")]
+		public async Task<ActionResult> GetCurrentOrder(int? accountId)
+		{
+			var order = await orderService.GetCurrentOrderAsync(accountId);
+			return Ok(order);
+		}
+
 	}
 }
