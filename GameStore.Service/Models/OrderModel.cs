@@ -14,6 +14,8 @@ namespace GameStore.Service.Models
 		public int? AccountId { get; set; }
 		public List<OrderItemModel>? OrderItems { get; set; }
 		public DateTime? DateCompleted { get; set; }
+
+		// task 4.4
 		public decimal TotalAmount => OrderItems?.Sum(x => x.itemTotalAmount) ?? 0;
 	}
 }
