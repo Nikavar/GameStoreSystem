@@ -158,7 +158,7 @@ namespace GameStore.Service
 				orderDetails.LastName = model.LastName;
 				orderDetails.Phone = model.Phone;
 				orderDetails.Email = model.Email;
-				orderDetails.PaymentTypeId = model.PaymentTypeId;
+				orderDetails.PaymentType = model.PaymentType;
 				orderDetails.Comments = model.Comments;
 
 				await orderDetailsRepository.AddAsync(orderDetails);
@@ -171,17 +171,18 @@ namespace GameStore.Service
 			return false;
 		}
 
-		public bool IsOrderDetailsModelValidate(OrderDetails model)
+		public bool IsOrderDetailsModelValidate(OrderDetailsModel model)
 		{
 			if (string.IsNullOrWhiteSpace(model.FirstName) || 
 				string.IsNullOrWhiteSpace(model.LastName) ||
 				string.IsNullOrEmpty(model.Email) ||
-				model.PaymentTypeId == -1 ||
-				string.IsNullOrEmpty(model.Phone))
+				model.PaymentType != PaymentType.Card ||
+				model.PaymentType != PaymentType.Cash ||
+				string.IsNullOrEmpty(model.Phone) ||
+			    model?.Comments?.Length > 600)
 				return false;
 
 			return true;
 		}
-
 	}
 }

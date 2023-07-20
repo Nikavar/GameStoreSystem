@@ -28,7 +28,7 @@ namespace GameStore.Data.Configuration
 				.IsRequired();
 
 			builder.HasOne(o => o.Order)
-				.WithMany(od => od.OrderDetails);
+				.WithOne(od => od.OrderDetails);
 		}
 	}
 }

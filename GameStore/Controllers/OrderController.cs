@@ -97,10 +97,10 @@ namespace GameStore.Controllers
 				var isComplete = await orderService.CompleteOrder(account, orderId, model);
 
 				if (isComplete)
-					return Ok("Order is Confirmed!");
+					return NoContent();
 			}
 
-			return NoContent();
+			return BadRequest();
 		}
 	}
 }
