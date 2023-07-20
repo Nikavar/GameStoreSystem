@@ -16,13 +16,15 @@ namespace GameStore.Service
 	public class OrderService : IOrderService
 	{
 		private readonly IOrderRepository orderRepository;
+		private readonly IOrderDetailsRepository orderDetailsRepository;
 		private readonly IOrderItemRepository orderItemRepository;
 		private readonly IGameRepository gameRepository;
 		private readonly IUnitOfWork unitOfWork;
 		private readonly IMapper mapper;
 
-		public OrderService(IOrderItemRepository orderItemRepository, IOrderRepository orderRepository, IGameRepository gameRepository, IUnitOfWork unitOfWork, IMapper mapper)
+		public OrderService(IOrderDetailsRepository orderDetailsRepository, IOrderItemRepository orderItemRepository, IOrderRepository orderRepository, IGameRepository gameRepository, IUnitOfWork unitOfWork, IMapper mapper)
 		{
+			this.orderDetailsRepository = orderDetailsRepository;
 			this.orderItemRepository = orderItemRepository;
 			this.gameRepository = gameRepository;
 			this.orderRepository = orderRepository;
@@ -141,6 +143,44 @@ namespace GameStore.Service
 				}
 
 			return await GetCurrentOrderAsync(accountId);
+		}
+
+		// task 4.5, 4.6, 4.7
+		public async Task<bool> CompleteOrder(int? accountId, int? orderId, OrderDetailsModel model)
+		{
+			var currentOrder = await GetCurrentOrderAsync(accountId);
+
+			if (currentOrder != null && currentOrder.DateCompleted == null)
+			{
+				OrderDetails orderDetails = new OrderDetails();
+				orderDetails.OrderId = model.OrderId;
+				orderDetails.FirstName = model.FirstName;
+				orderDetails.LastName = model.LastName;
+				orderDetails.Phone = model.Phone;
+				orderDetails.Email = model.Email;
+				orderDetails.PaymentTypeId = model.PaymentTypeId;
+				orderDetails.Comments = model.Comments;
+
+				await orderDetailsRepository.AddAsync(orderDetails);
+				currentOrder.DateCompleted = DateTime.Now;
+				await orderRepository.UpdateAsync(currentOrder);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public bool IsOrderDetailsModelValidate(OrderDetails model)
+		{
+			if (string.IsNullOrWhiteSpace(model.FirstName) || 
+				string.IsNullOrWhiteSpace(model.LastName) ||
+				string.IsNullOrEmpty(model.Email) ||
+				model.PaymentTypeId == -1 ||
+				string.IsNullOrEmpty(model.Phone))
+				return false;
+
+			return true;
 		}
 
 	}

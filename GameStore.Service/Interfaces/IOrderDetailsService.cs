@@ -9,6 +9,5 @@ namespace GameStore.Service.Interfaces
 {
 	public interface IOrderDetailsService
 	{
-		Task<bool> CompleteOrder(int? accountId, int? orderId, OrderDetailsModel model);
 	}
 }

@@ -26,7 +26,7 @@ namespace GameStore.Model.Models
 		public string? Phone { get; set; }
 
 		[Required]
-		public int? PaymentTypeId { get; set; }
+		public PaymentType PaymentType { get; set; }
 
 		[MaxLength(length: 600)]
 		public string? Comments { get; set; }

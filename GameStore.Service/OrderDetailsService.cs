@@ -28,34 +28,7 @@ namespace GameStore.Service
 			this.orderDetailsRepository = orderDetailsRepository;
 			this.unitOfWork = unitOfWork;
 			this.mapper = mapper;
-		}
-
-
-		// task 4.5, 4.6, 4.7
-		public async Task<bool> CompleteOrder(int? accountId, int? orderId, OrderDetailsModel model)
-		{			
-			var currentOrder = await orderService.GetCurrentOrderAsync(accountId);
-			
-			if(currentOrder != null && currentOrder.DateCompleted == null)
-			{
-				OrderDetails orderDetails = new OrderDetails();
-				orderDetails.OrderId = model.OrderId;
-				orderDetails.FirstName = model.FirstName;
-				orderDetails.LastName = model.LastName;
-				orderDetails.Phone = model.Phone;
-				orderDetails.Email = model.Email;
-				orderDetails.PaymentTypeId = model.PaymentTypeId;
-				orderDetails.Comments = model.Comments;
-
-				await orderDetailsRepository.AddAsync(orderDetails);
-				currentOrder.DateCompleted = DateTime.Now;
-				await orderRepository.UpdateAsync(currentOrder);
-
-				return true;
-			}
-
-			return false;
-		}
+		}	
 
 	}
 }

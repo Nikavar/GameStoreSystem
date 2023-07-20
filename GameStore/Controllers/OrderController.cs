@@ -79,10 +79,28 @@ namespace GameStore.Controllers
 		// task 4.4
 
 		[HttpGet("Game/{gameId}/MyCard/")]
-		public async Task<ActionResult> GetCurrentOrder(int? accountId)
+		public async Task<ActionResult> GetCurrentOrder()
 		{
+			var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+			int accountId = Convert.ToInt32(userId);
+
 			var order = await orderService.GetCurrentOrderAsync(accountId);
 			return Ok(order);
+		}
+
+		// task 4.5, 4.6, 4.7
+		[HttpPost("Game/{gameId}/CompleteOrder")]
+		public async Task<ActionResult> CompleteOrder(int? account, int? orderId, OrderDetailsModel model)
+		{
+			if(orderService.IsOrderDetailsModelValidate(model))
+			{
+				var isComplete = await orderService.CompleteOrder(account, orderId, model);
+
+				if (isComplete)
+					return Ok("Order is Confirmed!");
+			}
+
+			return NoContent();
 		}
 	}
 }
