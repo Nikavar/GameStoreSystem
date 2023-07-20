@@ -76,6 +76,7 @@ namespace GameStore.Controllers
 			return Ok(result);
 		}
 
+		
 		// task 4.4
 
 		[HttpGet("Game/{gameId}/MyCard/")]
