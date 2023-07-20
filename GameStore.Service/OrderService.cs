@@ -54,8 +54,7 @@ namespace GameStore.Service
 
 				await orderItemRepository.AddAsync(newOrderItem);
 			}
-
-			else 
+   		else
 			{
 				orderItem.ItemCount++;
 				await orderItemRepository.UpdateAsync(orderItem);
@@ -182,6 +181,5 @@ namespace GameStore.Service
 
 			return true;
 		}
-
 	}
 }
