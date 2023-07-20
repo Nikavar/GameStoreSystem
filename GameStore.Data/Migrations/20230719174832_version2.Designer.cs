@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameStore.Data.Migrations
 {
     [DbContext(typeof(GameStoreContext))]
-    [Migration("20230711133007_v2")]
-    partial class v2
+    [Migration("20230719174832_version2")]
+    partial class version2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.19")
+                .HasAnnotation("ProductVersion", "6.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -37,15 +37,20 @@ namespace GameStore.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -60,7 +65,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("GameStore.Model.Models.Comment", b =>
@@ -72,9 +77,10 @@ namespace GameStore.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CommentContent")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
 
-                    b.Property<int>("GameId")
+                    b.Property<int?>("GameId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -151,7 +157,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("GameGenres");
+                    b.ToTable("GameGenres", (string)null);
                 });
 
             modelBuilder.Entity("GameStore.Model.Models.Genre", b =>
@@ -272,28 +278,21 @@ namespace GameStore.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("int")
+                        .HasColumnName("AccountId");
 
-                    b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PaymentTypeId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("DateCompleted")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("PaymentTypeId");
-
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("GameStore.Model.Models.OrderGame", b =>
+            modelBuilder.Entity("GameStore.Model.Models.OrderDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,10 +300,53 @@ namespace GameStore.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderDetails", (string)null);
+                });
+
+            modelBuilder.Entity("GameStore.Model.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("GamePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ItemCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -313,23 +355,7 @@ namespace GameStore.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderGames");
-                });
-
-            modelBuilder.Entity("GameStore.Model.Models.PaymentType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("PaymentName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentTypes");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("GameStore.Model.Models.Role", b =>
@@ -375,9 +401,7 @@ namespace GameStore.Data.Migrations
                 {
                     b.HasOne("GameStore.Model.Models.Game", "Game")
                         .WithMany("Comments")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GameId");
 
                     b.HasOne("GameStore.Model.Models.Comment", "Reply")
                         .WithMany("Replies")
@@ -420,32 +444,31 @@ namespace GameStore.Data.Migrations
                 {
                     b.HasOne("GameStore.Model.Models.Account", "Account")
                         .WithMany("Orders")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GameStore.Model.Models.PaymentType", "PaymentType")
-                        .WithMany("Orders")
-                        .HasForeignKey("PaymentTypeId");
+                        .HasForeignKey("AccountId");
 
                     b.Navigation("Account");
-
-                    b.Navigation("PaymentType");
                 });
 
-            modelBuilder.Entity("GameStore.Model.Models.OrderGame", b =>
+            modelBuilder.Entity("GameStore.Model.Models.OrderDetails", b =>
                 {
-                    b.HasOne("GameStore.Model.Models.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GameStore.Model.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("GameStore.Model.Models.OrderItem", b =>
+                {
+                    b.HasOne("GameStore.Model.Models.Game", "Game")
+                        .WithMany("GameOrderItems")
+                        .HasForeignKey("GameId");
+
+                    b.HasOne("GameStore.Model.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("Game");
 
@@ -488,6 +511,8 @@ namespace GameStore.Data.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("GameGenres");
+
+                    b.Navigation("GameOrderItems");
                 });
 
             modelBuilder.Entity("GameStore.Model.Models.Genre", b =>
@@ -497,9 +522,11 @@ namespace GameStore.Data.Migrations
                     b.Navigation("GenreGames");
                 });
 
-            modelBuilder.Entity("GameStore.Model.Models.PaymentType", b =>
+            modelBuilder.Entity("GameStore.Model.Models.Order", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("OrderDetails");
+
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("GameStore.Model.Models.Role", b =>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using GameStore.Model.Models;
+using Mapster;
 
 namespace GameStore.Controllers
 {
@@ -14,10 +15,12 @@ namespace GameStore.Controllers
 	public class OrderController : ControllerBase
 	{
 		private readonly IOrderService orderService;
+		private readonly IOrderDetailsService orderDetailsService;
 		private readonly IGameService gameService;
 
-        public OrderController(IOrderService orderService, IGameService gameService)
-        {				
+        public OrderController(IOrderDetailsService orderDetailsService, IOrderService orderService, IGameService gameService)
+        {
+			this.orderDetailsService = orderDetailsService;			
 			this.orderService = orderService;
 			this.gameService = gameService;
         }
@@ -73,14 +76,32 @@ namespace GameStore.Controllers
 			return Ok(result);
 		}
 
+		
 		// task 4.4
 
 		[HttpGet("Game/{gameId}/MyCard/")]
-		public async Task<ActionResult> GetCurrentOrder(int? accountId)
+		public async Task<ActionResult> GetCurrentOrder()
 		{
+			var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+			int accountId = Convert.ToInt32(userId);
+
 			var order = await orderService.GetCurrentOrderAsync(accountId);
 			return Ok(order);
 		}
 
+		// task 4.5, 4.6, 4.7
+		[HttpPost("Game/{gameId}/CompleteOrder")]
+		public async Task<ActionResult> CompleteOrder(int? account, int? orderId, OrderDetailsModel model)
+		{
+			if(orderService.IsOrderDetailsModelValidate(model))
+			{
+				var isComplete = await orderService.CompleteOrder(account, orderId, model);
+
+				if (isComplete)
+					return NoContent();
+			}
+
+			return BadRequest();
+		}
 	}
 }

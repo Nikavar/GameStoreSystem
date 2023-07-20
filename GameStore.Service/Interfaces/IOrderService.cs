@@ -17,5 +17,8 @@ namespace GameStore.Service.Interfaces
 		Task<Order> UpdateOrderAsync(int? gameId, int? orderId, int accountId, SignEnum sign);
 		Task<Order> RemoveGameFromCardAsync(int? gameId, int? accountId);
 		Task RemoveAllGamesFromCardAsync(int? gameId, int? accountId);
+		Task<bool> CompleteOrder(int? accountId, int? orderId, OrderDetailsModel model);
+		bool IsOrderDetailsModelValidate(OrderDetailsModel model);
+
 	}
 }

@@ -130,7 +130,6 @@ namespace GameStore.Service
 
             IEnumerable<Game> result = new List<Game>();
 
-            // To_Do put in GameService!!!
             if (gameList != null && genreList != null && gameGenreList != null)
             {
                 if (genreId != null && !string.IsNullOrEmpty(gameName))
